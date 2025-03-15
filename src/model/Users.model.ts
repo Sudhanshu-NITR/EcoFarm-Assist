@@ -12,9 +12,8 @@ export interface User extends Document{
     language: string;
     crop_preferences: string[];
     verifyCode: string;
-    verifyCodeExpiry: string;
+    verifyCodeExpiry: Date;
     isVerified: boolean;
-    createdAt: Date;
 }
 
 const UserSchema = new Schema({
@@ -40,15 +39,13 @@ const UserSchema = new Schema({
             type: String, 
             required: true 
         },
-        coordinates: {
-            lat: { 
-                type: Number, 
-                required: true 
-            },
-            lng: { 
-                type: Number, 
-                required: true 
-            }
+        lat: { 
+            type: Number, 
+            required: true 
+        },
+        lng: { 
+            type: Number, 
+            required: true 
         }
     },
     language: {
@@ -56,7 +53,7 @@ const UserSchema = new Schema({
         required: [true, "Language is required!!"],
     },
     crop_preferences: {
-        type: String,   
+        type: [String],   
         default: null
     },
     verifyCode:{
@@ -69,9 +66,11 @@ const UserSchema = new Schema({
     },
     isVerified: {
         type: Boolean,
-        Default: false,
+        default: false
     }
-});
+}, 
+{timestamps: true}
+);
 
 const UserModel = (mongoose.models.User as mongoose.Model<User>) || mongoose.model<User>("User", UserSchema);
 
