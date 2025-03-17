@@ -4,13 +4,7 @@ export interface User extends Document{
     name: string;
     email: string;
     password: string;
-    location: {
-        address: string;
-        lat: number;
-        lng: number;
-    };
     language: string;
-    crop_preferences: string[];
     verifyCode: string;
     verifyCodeExpiry: Date;
     isVerified: boolean;
@@ -34,27 +28,9 @@ const UserSchema = new Schema({
         required: [true, "Password is required!!"],
         unique: true
     },
-    location: {
-        address: { 
-            type: String, 
-            required: true 
-        },
-        lat: { 
-            type: Number, 
-            required: true 
-        },
-        lng: { 
-            type: Number, 
-            required: true 
-        }
-    },
     language: {
         type: String,   
         required: [true, "Language is required!!"],
-    },
-    crop_preferences: {
-        type: [String],   
-        default: null
     },
     verifyCode:{
         type: String,
