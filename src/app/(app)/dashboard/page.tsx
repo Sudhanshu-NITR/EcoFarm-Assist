@@ -12,21 +12,21 @@ const Dashboard = () => {
       {/* Sidebar */}
       <aside className="w-64 bg-white shadow-lg p-4">
         <h1 className="text-xl font-bold mb-6">EcoFarm Assist</h1>
-        <nav className="space-y-4">
+        <nav className="space-y-4 flex flex-col">
           <Button variant={activeTab === "home" ? "default" : "ghost"} onClick={() => setActiveTab("home")}>
-            <Home className="mr-2" /> Dashboard
+            <Home className="mr-2 " /> Dashboard
           </Button>
           <Button variant={activeTab === "crop" ? "default" : "ghost"} onClick={() => setActiveTab("crop")}>
-            <Leaf className="mr-2" /> Crop Advice
+            <Leaf className="mr-2 " /> Crop Advice
           </Button>
           <Button variant={activeTab === "weather" ? "default" : "ghost"} onClick={() => setActiveTab("weather")}>
-            <Cloud className="mr-2" /> Weather Insights
+            <Cloud className="mr-2 " /> Weather Insights
           </Button>
           <Button variant={activeTab === "chat" ? "default" : "ghost"} onClick={() => setActiveTab("chat")}>
-            <MessageCircle className="mr-2" /> AI Chatbot
+            <MessageCircle className="mr-2 " /> AI Chatbot
           </Button>
           <Button variant={activeTab === "profile" ? "default" : "ghost"} onClick={() => setActiveTab("profile")}>
-            <User className="mr-2" /> Profile
+            <User className="mr-2 " /> Profile
           </Button>
         </nav>
       </aside>

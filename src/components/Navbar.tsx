@@ -51,7 +51,7 @@ function Navbar() {
             <a href="#services" className="text-slate-300 hover:text-blue-400 transition-colors duration-300 border-b-2 border-transparent hover:border-blue-400 pb-1">Services</a>
             <a href="#" className="text-slate-300 hover:text-blue-400 transition-colors duration-300 border-b-2 border-transparent hover:border-blue-400 pb-1">Contact</a>
             <Link href={'/sign-in'}>
-              <Button variant="outline" className="border-blue-500 text-blue-400 hover:bg-blue-500 hover:text-white transition-all cursor-pointer">Login</Button>
+              <Button variant="outline" className="border-blue-500 text-blue-400 hover:bg-blue-500 hover:text-white font-bold transition-all cursor-pointer">Login</Button>
             </Link>
             <Link href={'/sign-up'}>
               <Button className="bg-blue-600 hover:bg-blue-700 text-white transition-all cursor-pointer">Sign Up</Button>
