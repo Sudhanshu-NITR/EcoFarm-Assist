@@ -3,26 +3,12 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 import Link from "next/link"
-import { useEffect, useState } from "react"
-import { useDebounceValue, useDebounceCallback } from 'usehooks-ts'
+import { useState } from "react"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
-import { signUpSchema } from "@/schemas/signUpSchema"
-import axios, {AxiosError} from 'axios'
-import { IApiResponse } from "@/types/ApiResponse"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Loader2 } from "lucide-react"
 import { signInSchema } from "@/schemas/signInSchema"
 import { signIn } from "next-auth/react"
 
@@ -42,7 +28,8 @@ function Page() {
 
   const onSubmit = async (data: z.infer<typeof signInSchema>)=>{
     setIsSubmitting(true);
-    const result = await signIn('credential', {
+    console.log("Submitting data:", data);
+    const result = await signIn('credentials', {
       redirect: false,
       identifier: data.identifier,
       password: data.password
@@ -50,7 +37,7 @@ function Page() {
 
     if(result?.error){
       toast.error("Login Failed", {
-          description: "Incorrect email or password"
+          description: result?.error,
         }
       );
     }

@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/select"
 import { Input } from "../../../components/ui/input"
 import { Button } from "../../../components/ui/button"
-import { Loader2 } from "lucide-react"
+import { Loader2, Leaf, Droplet } from "lucide-react"
 
 
 function Page() {
@@ -96,32 +96,45 @@ function Page() {
       toast.error('SignUp Failed, Please try again', {
         description: errorMessage,
       })
-            
     }
   }
 
   return (
     <>
-      <div className="flex justify-center items-center min-h-screen bg-gray-800">
-        <div className="w-full max-w-md p-8 space-y-8 bg-gray-100 rounded-lg shadow-md my-20">
+      <div className="flex justify-center items-center min-h-screen bg-gradient-to-b from-slate-900 to-slate-800 bg-fixed overflow-auto">
+        <div className="w-full max-w-md p-8 space-y-6 bg-slate-800 rounded-lg shadow-lg my-8 border border-slate-700 relative">
+          {/* Decorative elements */}
+          <div className="absolute -top-4 -left-4 h-12 w-12 bg-blue-500 rounded-full flex items-center justify-center">
+            <Droplet className="h-6 w-6 text-white" />
+          </div>
+          <div className="absolute -top-4 -right-4 h-12 w-12 bg-teal-500 rounded-full flex items-center justify-center">
+            <Leaf className="h-6 w-6 text-white" />
+          </div>
+          
           <div className="text-center">
-            <h1 className="text-3xl font-extrabold tracking-tight lg:text-5xl mb-6">
+            <h1 className="text-3xl font-extrabold tracking-tight lg:text-4xl mb-4 text-blue-100">
               Join EcoFarm Assist
             </h1>
-            <p className="mb-4">
-              Sign Up & Cultivate a Smarter Future 
+            <p className="mb-4 text-slate-300 italic">
+              Smart farming solutions for a sustainable future
             </p>
+            <div className="h-1 w-24 bg-gradient-to-r from-blue-400 to-teal-400 mx-auto rounded-full"></div>
           </div>
+          
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
               <FormField
                 name="name"
                 control={form.control}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>User Name</FormLabel>
+                    <FormLabel className="text-slate-200">Full Name</FormLabel>
                       <FormControl>
-                        <Input placeholder="Enter your Name" {...field} />
+                        <Input 
+                          placeholder="Enter your name" 
+                          {...field} 
+                          className="bg-slate-700 border-slate-600 focus:border-blue-400 focus:ring-blue-400 text-slate-200"
+                        />
                       </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -132,9 +145,13 @@ function Page() {
                 control={form.control}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel className="text-slate-200">Email</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter your Email Id" {...field}/>
+                      <Input 
+                        placeholder="Enter your email address" 
+                        {...field}
+                        className="bg-slate-700 border-slate-600 focus:border-blue-400 focus:ring-blue-400 text-slate-200"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -145,13 +162,13 @@ function Page() {
                 control={form.control}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Language</FormLabel>
+                    <FormLabel className="text-slate-200">Preferred Language</FormLabel>
                     <FormControl>
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select Preferred Language" />
+                        <SelectTrigger className="bg-slate-700 border-slate-600 focus:border-blue-400 focus:ring-blue-400 text-slate-200">
+                          <SelectValue placeholder="Select your language" />
                         </SelectTrigger>
-                        <SelectContent>
+                        <SelectContent className="bg-slate-700 border-slate-600 text-slate-200">
                           {[
                             "Hindi", "Bengali", "Telugu", "Marathi", "Tamil", 
                             "Urdu", "Gujarati", "Malayalam", "Kannada", "Odia", 
@@ -174,9 +191,13 @@ function Page() {
                 control={form.control}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel className="text-slate-200">Password</FormLabel>
                       <FormControl>
-                        <Input type='password' placeholder="Enter a passoword" {...field}
+                        <Input 
+                          type='password' 
+                          placeholder="Create a password" 
+                          {...field}
+                          className="bg-slate-700 border-slate-600 focus:border-blue-400 focus:ring-blue-400 text-slate-200"
                           onChange={(e)=>{
                             field.onChange(e)
                             debounced(e.target.value)
@@ -184,34 +205,43 @@ function Page() {
                         />
                       </FormControl>
                       {isCheckingPassword &&
-                        <Loader2 className="animate-spin"/>
+                        <Loader2 className="animate-spin text-blue-400"/>
                       }
-                      <p className={`text-sm ${passwordMessage=="Valid Password" ? 'text-green-500':'text-red-500'}`}>
+                      <p className={`text-sm ${passwordMessage=="Valid Password" ? 'text-teal-400':'text-red-400'}`}>
                         {passwordMessage}
                       </p>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              <Button type='submit' disabled={isSubmitting}>
+              <Button 
+                type='submit' 
+                className='w-full bg-blue-600 hover:bg-blue-700 text-white cursor-pointer transition-colors duration-200' 
+                disabled={isSubmitting}
+              >
                 {
                   isSubmitting? (
                     <>
-                      <Loader2  className="mr-2 h-4 w-4 animate-spin"/> Please wait
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin"/> Please wait
                     </>
-                  ) : ('SignUp')
+                  ) : (<>Create Account</>)
                 }
               </Button>
             </form>
           </Form>
-          <div className="text-center mt-4">
-          <p>
-            Already a member?{' '}
-            <Link href="/sign-in" className="text-blue-600 hover:text-blue-800">
-              Sign in
-            </Link> 
-          </p>
-        </div>
+          
+          <div className="text-center mt-4 pt-4 border-t border-slate-700">
+            <p className="text-slate-300">
+              Already have an account?{' '}
+              <Link href="/sign-in" className="text-blue-400 hover:text-blue-300 font-medium">
+                Sign in
+              </Link> 
+            </p>
+          </div>
+          
+          <div className="text-center text-xs text-slate-400 mt-2">
+            <p>Advanced agricultural technology for modern farmers</p>
+          </div>
         </div>
       </div>
     </>

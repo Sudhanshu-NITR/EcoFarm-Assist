@@ -14,7 +14,7 @@ import { Button } from '@/components/ui/button';
 
 function VerifyAccount() {
     const router = useRouter();
-    const params = useParams<{email: string}>();
+    const params = useParams<{username: string}>();
     const [verificationCode, setVerificationCode] = useState<string[]>(['', '', '', '', '', '']);
     const inputRefs = useRef<HTMLInputElement[]>([]);
     
@@ -67,15 +67,17 @@ function VerifyAccount() {
 
     const onSubmit = async (data: z.infer<typeof verifySchema>): Promise<void> => {
         try {
+            const decodedEmail = decodeURIComponent(params.username);
+
             const response = await axios.post(`/api/verify-code`, {
-                email: params.email,
+                email: decodedEmail,
                 code: verificationCode.join('')
             });
             
             if(response.data.success){
-                router.replace('sign-in');
+                router.replace('/sign-in');
                 toast((response.data.success)? 'Success':'Failure', {
-                    description: response.data.message
+                    description: response.data.message,
                 });
             }
             else{
@@ -83,6 +85,7 @@ function VerifyAccount() {
                 console.error("Error in verification of user, ", error);
                 toast.error('Verification Failed, Please try again', {
                     description: error,
+                    className: "text-red-500 bg-white"
                 });
             }
         } catch (error) {
@@ -91,6 +94,7 @@ function VerifyAccount() {
             let errorMessage = axiosError.response?.data.message;
             toast.error('Verification Failed, Please SignUp again', {
                 description: errorMessage,
+                className: "text-red-500 bg-white"
             });
         }
     };
