@@ -5,7 +5,7 @@ export interface IApiResponse<T = any> {
     data?: T;
 }
 
-export class ApiResponse<T = any> {
+export class ApiResponse<T = IApiResponse> {
     success: boolean;
     message: string;
     statusCode: number;

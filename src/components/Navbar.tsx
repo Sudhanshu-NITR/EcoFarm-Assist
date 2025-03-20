@@ -4,24 +4,13 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { Button } from "@/components/ui/button"
 import { Leaf, Menu } from 'lucide-react'
+import { useSession, signOut } from 'next-auth/react';
+// import { User } from 'next-auth';
 
 function Navbar() {
-  const [isScrolled, setIsScrolled] = useState(false)
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 10) {
-        setIsScrolled(true)
-      } else {
-        setIsScrolled(false)
-      }
-    }
-
-    window.addEventListener('scroll', handleScroll)
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-    }
-  }, [])
+  const {data: session} = useSession();
+  // const user : User = session?.user as User;
 
   return (
     <nav className={`w-full z-50 transition-all duration-300 bg-slate-900/95 backdrop-blur-md shadow-lg`}>
@@ -50,12 +39,31 @@ function Navbar() {
             <a href="#" className="text-slate-300 hover:text-blue-400 transition-colors duration-300 border-b-2 border-transparent hover:border-blue-400 pb-1">About</a>
             <a href="#services" className="text-slate-300 hover:text-blue-400 transition-colors duration-300 border-b-2 border-transparent hover:border-blue-400 pb-1">Services</a>
             <a href="#" className="text-slate-300 hover:text-blue-400 transition-colors duration-300 border-b-2 border-transparent hover:border-blue-400 pb-1">Contact</a>
-            <Link href={'/sign-in'}>
-              <Button variant="outline" className="border-blue-500 text-blue-400 hover:bg-blue-500 hover:text-white font-bold transition-all cursor-pointer">Login</Button>
-            </Link>
-            <Link href={'/sign-up'}>
-              <Button className="bg-blue-600 hover:bg-blue-700 text-white transition-all cursor-pointer">Sign Up</Button>
-            </Link>
+            {
+              session? 
+              (
+                <>
+                  <Button
+                    variant="outline"
+                    className="border-red-500 text-red-400 hover:bg-red-500 hover:text-white font-bold transition-all cursor-pointer"
+                    onClick={() => signOut()}
+                  >
+                    Logout
+                  </Button>
+                </>
+              )
+              : (
+                <>
+                  <Link href={'/sign-in'}>
+                    <Button variant="outline" className="border-blue-500 text-blue-400 hover:bg-blue-500 hover:text-white font-bold transition-all cursor-pointer">Login</Button>
+                  </Link>
+                  <Link href={'/sign-up'}>
+                    <Button className="bg-blue-600 hover:bg-blue-700 text-white transition-all cursor-pointer">Sign Up</Button>
+                  </Link>
+                </>
+              )
+            }
+
           </motion.div>
           
           <div className="md:hidden flex items-center">

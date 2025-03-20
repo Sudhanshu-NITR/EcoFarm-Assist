@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form"
 import * as z from "zod"
 import Link from "next/link"
 import { useEffect, useState } from "react"
-import { useDebounceValue, useDebounceCallback } from 'usehooks-ts'
+import { useDebounceCallback } from 'usehooks-ts'
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
 import { signUpSchema } from "@/schemas/signUpSchema"
@@ -14,14 +14,12 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { Input } from "../../../components/ui/input"
-import { Button } from "../../../components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
 import { Loader2, Leaf, Droplet } from "lucide-react"
 
 

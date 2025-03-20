@@ -1,0 +1,86 @@
+'use client'
+import Link from 'next/link'
+import React, { useEffect } from 'react'
+import { Button } from '@/components/ui/button'
+import { Cloud, Home, Leaf, MessageCircle, User } from 'lucide-react'
+
+function Sidebar({activeTab, setActiveTab} : {activeTab: string, setActiveTab: (tab: string) => void}) {
+
+    useEffect(()=>{
+        const storedTab = localStorage.getItem('activeTab');
+        if(storedTab){
+            setActiveTab(storedTab);
+        }
+    }, []);
+
+    const handleTabChange = (tab: string) =>{
+        setActiveTab(tab);
+        localStorage.setItem('activeTab', tab);
+    }
+    
+    return (
+        <>
+            <div className="w-64 bg-slate-800 border-r border-slate-700 h-screen sticky top-0 overflow-y-auto flex flex-col">
+                {/* <div className="p-6 border-b border-slate-700">
+                <div className="flex items-center gap-3">
+                    <div className="h-10 w-10 bg-blue-500 rounded-full flex items-center justify-center">
+                    <Leaf className="h-5 w-5 text-white" />
+                    </div>
+                    <h1 className="text-xl font-bold text-blue-100">EcoFarm Assist</h1>
+                </div>
+                </div> */}
+                
+                <nav className="p-4 space-y-2 flex-1">
+                    <Button 
+                        variant={activeTab === "dashboard" ? "default" : "ghost"} 
+                        className={`w-full justify-start ${activeTab === "dashboard" ? "bg-blue-600 hover:bg-blue-700" : "text-slate-300 hover:text-white hover:bg-slate-700"}`}
+                        onClick={() => handleTabChange("dashboard")}
+                    >
+                        <Home className="mr-2 h-4 w-4" /> Home
+                    </Button>
+                    
+                    <Button 
+                        variant={activeTab === "crop" ? "default" : "ghost"} 
+                        className={`w-full justify-start ${activeTab === "crop" ? "bg-blue-600 hover:bg-blue-700" : "text-slate-300 hover:text-white hover:bg-slate-700"}`}
+                        onClick={() => setActiveTab("crop")}
+                    >
+                        <Leaf className="mr-2 h-4 w-4" />
+                        Crop Advice
+                    </Button>
+                    <Button 
+                        variant={activeTab === "weather" ? "default" : "ghost"} 
+                        className={`w-full justify-start ${activeTab === "weather" ? "bg-blue-600 hover:bg-blue-700" : "text-slate-300 hover:text-white hover:bg-slate-700"}`}
+                        onClick={() => setActiveTab("weather")}
+                    >
+                        <Cloud className="mr-2 h-4 w-4" />
+                        Weather Insights
+                    </Button>
+                    <Button 
+                        variant={activeTab === "chat" ? "default" : "ghost"} 
+                        className={`w-full justify-start ${activeTab === "chat" ? "bg-blue-600 hover:bg-blue-700" : "text-slate-300 hover:text-white hover:bg-slate-700"}`}
+                        onClick={() => setActiveTab("chat")}
+                    >
+                        <MessageCircle className="mr-2 h-4 w-4" />
+                        AI Chatbot
+                    </Button>
+                    <Button 
+                        variant={activeTab === "profile" ? "default" : "ghost"} 
+                        className={`w-full justify-start ${activeTab === "profile" ? "bg-blue-600 hover:bg-blue-700" : "text-slate-300 hover:text-white hover:bg-slate-700"}`}
+                        onClick={() => setActiveTab("profile")}
+                    >
+                        <User className="mr-2 h-4 w-4" />
+                        Profile
+                    </Button>
+                </nav>
+                
+                <div className="p-4 border-t border-slate-700">
+                <div className="text-xs text-slate-400 text-center">
+                    <p>Sustainable farming solutions</p>
+                </div>
+                </div>
+            </div>
+        </>
+    )
+}
+
+export default Sidebar

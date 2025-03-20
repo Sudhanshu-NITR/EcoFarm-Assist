@@ -7,14 +7,6 @@ import { useState } from "react"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { signInSchema } from "@/schemas/signInSchema"
@@ -35,7 +27,6 @@ function Page() {
 
   const onSubmit = async (data: z.infer<typeof signInSchema>)=>{
     setIsSubmitting(true);
-    console.log("Submitting data:", data);
     try {
       const result = await signIn('credentials', {
         redirect: false,
@@ -51,7 +42,7 @@ function Page() {
       }
       
       if(result?.url){
-        router.replace('/dashboard');
+        router.replace('/user');
       }
     } catch (error) {
       console.error("Error signing in:", error);

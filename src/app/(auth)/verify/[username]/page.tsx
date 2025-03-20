@@ -7,9 +7,9 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import axios, { AxiosError } from 'axios';
-import { IApiResponse } from '../../../../types/ApiResponse';
+import { IApiResponse } from '@/types/ApiResponse';
 import { Input } from '@/components/ui/input';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../../../../components/ui/form';
+import { Form, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
 
 function VerifyAccount() {
@@ -115,7 +115,7 @@ function VerifyAccount() {
                             <FormField
                                 name="code"
                                 control={form.control}
-                                render={({ field }) => (
+                                render={() => (
                                     <FormItem>
                                         <div className="flex justify-center gap-2 mb-6">
                                             {[0, 1, 2, 3, 4, 5].map((index) => (

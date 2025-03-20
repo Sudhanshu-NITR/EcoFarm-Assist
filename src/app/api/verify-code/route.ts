@@ -1,6 +1,6 @@
-import dbConnect from "../../../lib/dbConnect";
-import UserModel from "../../../model/Users.model";
-import { ApiResponse } from "../../../types/ApiResponse";
+import dbConnect from "@/lib/dbConnect";
+import UserModel from "@/model/Users.model";
+import { ApiResponse } from "@/types/ApiResponse";
 
 export async function POST(request: Request){
     dbConnect()
