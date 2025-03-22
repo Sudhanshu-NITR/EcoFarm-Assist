@@ -4,7 +4,6 @@ import AuthProvider from "@/context/AuthProvider";
 import "./globals.css";
 import Chatbot from "@/components/chatbot/chatbot";
 import { Toaster } from "@/components/ui/sonner"
-import { LocationProvider } from "@/context/LocationContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,16 +28,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <AuthProvider>
-        <LocationProvider >
           <body
             className={`${geistSans.variable} ${geistMono.variable} antialiased`}
             >
-            {/* <Navbar /> */}
             {children}
             <Chatbot />
             <Toaster />
           </body>
-        </LocationProvider>
       </AuthProvider>
     </html>
   );

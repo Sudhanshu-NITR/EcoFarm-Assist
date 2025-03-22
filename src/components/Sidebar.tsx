@@ -33,23 +33,33 @@ function Sidebar({activeTab, setActiveTab} : {activeTab: string, setActiveTab: (
                 <nav className="p-4 space-y-2 flex-1">
                     <Button 
                         variant={activeTab === "dashboard" ? "default" : "ghost"} 
-                        className={`w-full justify-start ${activeTab === "dashboard" ? "bg-blue-600 hover:bg-blue-700" : "text-slate-300 hover:text-white hover:bg-slate-700"}`}
+                        className={`w-full cursor-pointer justify-start ${activeTab === "dashboard" ? "bg-blue-600 hover:bg-blue-700" : "text-slate-300 hover:text-white hover:bg-slate-700"}`}
                         onClick={() => handleTabChange("dashboard")}
                     >
                         <Home className="mr-2 h-4 w-4" /> Home
                     </Button>
                     
                     <Button 
-                        variant={activeTab === "crop" ? "default" : "ghost"} 
-                        className={`w-full justify-start ${activeTab === "crop" ? "bg-blue-600 hover:bg-blue-700" : "text-slate-300 hover:text-white hover:bg-slate-700"}`}
-                        onClick={() => setActiveTab("crop")}
+                        variant={activeTab === "cropRecommendation" ? "default" : "ghost"} 
+                        className={`w-full cursor-pointer justify-start ${activeTab === "cropRecommendation" ? "bg-blue-600 hover:bg-blue-700" : "text-slate-300 hover:text-white hover:bg-slate-700"}`}
+                        onClick={() => setActiveTab("cropRecommendation")}
                     >
                         <Leaf className="mr-2 h-4 w-4" />
-                        Crop Advice
+                        Crop Recommedation
                     </Button>
+
+                    <Button 
+                        variant={activeTab === "pestAndDiseaseDetection" ? "default" : "ghost"} 
+                        className={`w-full cursor-pointer justify-start ${activeTab === "pestAndDiseaseDetection" ? "bg-blue-600 hover:bg-blue-700" : "text-slate-300 hover:text-white hover:bg-slate-700"}`}
+                        onClick={() => setActiveTab("pestAndDiseaseDetection")}
+                    >
+                        <Leaf className="mr-2 h-4 w-4" />
+                        Pest & Disease Detection
+                    </Button>
+
                     <Button 
                         variant={activeTab === "weather" ? "default" : "ghost"} 
-                        className={`w-full justify-start ${activeTab === "weather" ? "bg-blue-600 hover:bg-blue-700" : "text-slate-300 hover:text-white hover:bg-slate-700"}`}
+                        className={`w-full cursor-pointer justify-start ${activeTab === "weather" ? "bg-blue-600 hover:bg-blue-700" : "text-slate-300 hover:text-white hover:bg-slate-700"}`}
                         onClick={() => setActiveTab("weather")}
                     >
                         <Cloud className="mr-2 h-4 w-4" />
@@ -57,7 +67,7 @@ function Sidebar({activeTab, setActiveTab} : {activeTab: string, setActiveTab: (
                     </Button>
                     <Button 
                         variant={activeTab === "chat" ? "default" : "ghost"} 
-                        className={`w-full justify-start ${activeTab === "chat" ? "bg-blue-600 hover:bg-blue-700" : "text-slate-300 hover:text-white hover:bg-slate-700"}`}
+                        className={`w-full cursor-pointer justify-start ${activeTab === "chat" ? "bg-blue-600 hover:bg-blue-700" : "text-slate-300 hover:text-white hover:bg-slate-700"}`}
                         onClick={() => setActiveTab("chat")}
                     >
                         <MessageCircle className="mr-2 h-4 w-4" />
@@ -65,7 +75,7 @@ function Sidebar({activeTab, setActiveTab} : {activeTab: string, setActiveTab: (
                     </Button>
                     <Button 
                         variant={activeTab === "profile" ? "default" : "ghost"} 
-                        className={`w-full justify-start ${activeTab === "profile" ? "bg-blue-600 hover:bg-blue-700" : "text-slate-300 hover:text-white hover:bg-slate-700"}`}
+                        className={`w-full cursor-pointer justify-start ${activeTab === "profile" ? "bg-blue-600 hover:bg-blue-700" : "text-slate-300 hover:text-white hover:bg-slate-700"}`}
                         onClick={() => setActiveTab("profile")}
                     >
                         <User className="mr-2 h-4 w-4" />

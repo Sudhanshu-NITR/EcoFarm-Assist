@@ -1,6 +1,7 @@
 'use client'
 import React, { useState, useRef, useEffect } from "react";
 import { Send, ChevronDown, Sparkles, X, Paperclip, User, Bot, MessageSquare } from "lucide-react";
+import axios from "axios";
 
 interface Message {
   text: string;
@@ -60,19 +61,17 @@ const Chatbot: React.FC = () => {
     showTypingIndicator();
 
     try {
-      const response = await fetch("http://localhost:3000/api/chatbot", {
-        method: "POST",
+      const response = await axios.post("/api/chatbot", { userMessage: input }, {
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userMessage: input })
       });
-      
-      if (!response.body) {
-        throw new Error("Response body is null");
+
+      if (!response.data) {
+        throw new Error("Response data is null");
       }
-      
-      const reader = response.body.getReader();
+
+      const reader = response.data.getReader();
       let botMessage = "";
-      
+
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
@@ -92,7 +91,7 @@ const Chatbot: React.FC = () => {
       console.error("Error fetching response:", error);
       setMessages((prev) => [...prev, { text: "Sorry, I couldn't process that request.", sender: "bot", isError: true }]);
     }
-    
+
     setLoading(false);
   };
 
@@ -112,12 +111,12 @@ const Chatbot: React.FC = () => {
   return (
     <div className="fixed bottom-4 right-4 z-50">
       {isOpen ? (
-        <div 
-          ref={chatContainerRef} 
+        <div
+          ref={chatContainerRef}
           className="bg-gray-900 rounded-lg overflow-hidden shadow-xl border border-purple-800/30 max-w-sm w-full sm:w-80 flex flex-col"
         >
           {/* Header */}
-          <div 
+          <div
             className="bg-purple-600 p-3 flex items-center justify-between cursor-pointer"
             onClick={toggleChat}
           >
@@ -128,14 +127,14 @@ const Chatbot: React.FC = () => {
               <span className="text-white font-medium">AI Assistant</span>
             </div>
             <div className="flex items-center space-x-2">
-              <button 
+              <button
                 onClick={resetChat}
                 className="text-white/70 hover:text-white focus:outline-none cursor-pointer"
                 aria-label="Reset chat"
               >
                 <X size={16} />
               </button>
-              <button 
+              <button
                 onClick={minimizeChat}
                 className="text-white focus:outline-none cursor-pointer"
                 aria-label="Minimize chat"
@@ -144,9 +143,9 @@ const Chatbot: React.FC = () => {
               </button>
             </div>
           </div>
-          
+
           {/* Chat area */}
-          <div 
+          <div
             className="bg-gray-900 h-64 overflow-y-auto p-3 space-y-3 flex-grow"
             style={{
               scrollbarWidth: "thin",
@@ -160,14 +159,13 @@ const Chatbot: React.FC = () => {
                     <Bot size={12} className="text-white" />
                   </div>
                 )}
-                <div 
-                  className={`max-w-[80%] rounded-lg px-3 py-2 text-sm ${
-                    msg.sender === "user" 
-                      ? "bg-purple-500 text-white rounded-br-none" 
+                <div
+                  className={`max-w-[80%] rounded-lg px-3 py-2 text-sm ${msg.sender === "user"
+                      ? "bg-purple-500 text-white rounded-br-none"
                       : msg.isError
                         ? "bg-red-500/20 text-red-200 border border-red-500/30"
                         : "bg-gray-800 text-gray-200 rounded-bl-none"
-                  }`}
+                    }`}
                 >
                   {msg.text}
                 </div>
@@ -185,16 +183,16 @@ const Chatbot: React.FC = () => {
                 </div>
                 <div className="bg-gray-800 text-gray-200 rounded-lg rounded-bl-none px-3 py-2 text-sm">
                   <div className="flex space-x-1">
-                    <div className="w-1.5 h-1.5 bg-gray-500 rounded-full animate-bounce" style={{animationDelay: "0ms"}}></div>
-                    <div className="w-1.5 h-1.5 bg-gray-500 rounded-full animate-bounce" style={{animationDelay: "150ms"}}></div>
-                    <div className="w-1.5 h-1.5 bg-gray-500 rounded-full animate-bounce" style={{animationDelay: "300ms"}}></div>
+                    <div className="w-1.5 h-1.5 bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: "0ms" }}></div>
+                    <div className="w-1.5 h-1.5 bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: "150ms" }}></div>
+                    <div className="w-1.5 h-1.5 bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: "300ms" }}></div>
                   </div>
                 </div>
               </div>
             )}
             <div ref={messagesEndRef} />
           </div>
-          
+
           {/* Suggestions */}
           {messages.length <= 2 && (
             <div className="px-3 pb-2 pt-1 flex flex-wrap justify-center gap-2">
@@ -209,7 +207,7 @@ const Chatbot: React.FC = () => {
               ))}
             </div>
           )}
-          
+
           {/* Input area */}
           <div className="p-3 bg-gray-800 border-t border-gray-700">
             <div className="relative flex items-center">
@@ -223,20 +221,19 @@ const Chatbot: React.FC = () => {
                 className="w-full bg-gray-700 text-sm text-gray-200 rounded-md pl-3 pr-16 py-2 focus:outline-none focus:ring-1 focus:ring-purple-500 placeholder-gray-400"
               />
               <div className="absolute right-1 flex items-center">
-                <button 
+                <button
                   className="p-1 rounded-md text-gray-400 hover:text-gray-300 mr-1"
                   title="Attach file"
                 >
                   <Paperclip size={16} />
                 </button>
-                <button 
-                  onClick={() => void sendMessage()} 
+                <button
+                  onClick={() => void sendMessage()}
                   disabled={!input.trim() || loading}
-                  className={`p-1.5 rounded-md ${
-                    !input.trim() || loading 
-                      ? "bg-gray-600 text-gray-400" 
+                  className={`p-1.5 rounded-md ${!input.trim() || loading
+                      ? "bg-gray-600 text-gray-400"
                       : "bg-purple-600 text-white hover:bg-purple-700"
-                  }`}
+                    }`}
                 >
                   <Send size={14} />
                 </button>
@@ -246,7 +243,7 @@ const Chatbot: React.FC = () => {
         </div>
       ) : (
         // Minimized icon
-        <button 
+        <button
           onClick={toggleChat}
           className="bg-purple-600 text-white p-3 rounded-full shadow-lg hover:bg-purple-700 transition-all duration-200 flex items-center justify-center"
           aria-label="Open chat"

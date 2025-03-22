@@ -5,7 +5,10 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Sidebar from "@/components/Sidebar";
 import { useEffect, useState } from "react";
-import Dashboard from "@/components/dashboard/dashboard";
+import Dashboard from "@/components/user-components/dashboard";
+import CropRecommendation from "@/components/user-components/CropRecommendation/CropRecommendation";
+import PestAndDiseaseDetection from "@/components/user-components/PestAndDiseaseDetection/PestAndDiseaseDetection";
+import { LocationProvider } from "@/context/LocationContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,7 +26,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [activeTab, setActiveTab] = useState<string>(localStorage.getItem("activeTab") || "dashboard");
+  const [activeTab, setActiveTab] = useState<string>("dashboard");
 
   useEffect(()=>{
     const storedTab = localStorage.getItem('activetab');
@@ -35,18 +38,20 @@ export default function RootLayout({
   return (
     <html lang="en">
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <Navbar />
-        {/* <main className="flex"> */}
-          <div className="min-h-screen bg-gradient-to-b from-slate-900 to-slate-800 bg-fixed flex">
-            <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
-            <div className="flex-1">
-              {activeTab === "dashboard" && <Dashboard/>}
-              {children}
-            </div>
-          </div>
-          <Chatbot />
-        {/* </main> */}
-        <Footer />
+          <Navbar />
+            <LocationProvider >
+              <div className="min-h-screen bg-gradient-to-b from-slate-900 to-slate-800 bg-fixed flex">
+                <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
+                <div className="flex-1">
+                  {activeTab === "dashboard" && <Dashboard/>}
+                  {activeTab === "cropRecommendation" && <CropRecommendation />}
+                  {activeTab === "pestAndDiseaseDetection" && <PestAndDiseaseDetection />}
+                  {children}
+                </div>
+              </div>
+              {/* <Chatbot /> */}
+            </LocationProvider>
+          <Footer />
       </body>
     </html>
   );
