@@ -1,14 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import ee from '@google/earthengine';
 
-// Load credentials from environment variable
 const credentials = JSON.parse(process.env.GEE_SERVICE_ACCOUNT_KEY || '{}');
 
 if (!credentials.private_key) {
     console.error('GEE_SERVICE_ACCOUNT_KEY is missing or invalid.');
 }
 
-// Initialize Google Earth Engine
 let isInitialized = false;
 const initializeEarthEngine = async () => {
     if (!isInitialized) {
@@ -23,7 +21,6 @@ const initializeEarthEngine = async () => {
     }
 };
 
-// Function to get soil data from GEE
 const getSoilData = async (lat: number, lon: number) => {
     const dataset = {
         nitrogen: 'projects/soilgrids-isric/nitrogen_mean',
@@ -38,24 +35,49 @@ const getSoilData = async (lat: number, lon: number) => {
     for (const [key, asset] of Object.entries(dataset)) {
         try {
             const image = ee.Image(asset);
-            const value = image.sample(point, 250).first().getInfo();
-            soilData[key] = value ?? 'No data available';
+            const sampled = image.sample(point, 250).first().toDictionary().getInfo();
+
+            if (key === 'nitrogen') {
+                const nitrogenValues = [
+                    sampled?.['nitrogen_0-5cm_mean'],
+                    sampled?.['nitrogen_5-15cm_mean'],
+                    sampled?.['nitrogen_15-30cm_mean']
+                ].filter(v => v !== undefined);
+
+                soilData[key] = nitrogenValues.length
+                    ? nitrogenValues.reduce((a, b) => a + b, 0) / nitrogenValues.length
+                    : 'No data available';
+            } else if (key === 'ph') {
+                const phValues = [
+                    sampled?.['phh2o_0-5cm_mean'],
+                    sampled?.['phh2o_5-15cm_mean'],
+                    sampled?.['phh2o_15-30cm_mean']
+                ].filter(v => v !== undefined);
+
+                soilData[key] = phValues.length
+                    ? phValues.reduce((a, b) => a + b, 0) / phValues.length
+                    : 'No data available';
+            } else {
+                soilData[key] = sampled ?? 'No data available';
+            }
         } catch (error) {
             soilData[key] = `Error: ${(error as Error).message}`;
         }
     }
-
+    soilData['ph'] = parseFloat((soilData['ph'] / 10).toFixed(2));
+    soilData['nitrogen'] = soilData['nitrogen']/10;
+    soilData['phosphorus'] = 42;
+    soilData['potassium'] = 43;
+    console.log(soilData);
+    
     return soilData;
 };
 
-// API Route Handler
 export async function GET(req: NextRequest) {
     
     try {
-        // Initialize Earth Engine if not already initialized
         await initializeEarthEngine();
         
-        // Extract latitude and longitude from query parameters
         const { searchParams } = new URL(req.url);
         const lat = parseFloat(searchParams.get('lat') || '');
         const lon = parseFloat(searchParams.get('lng') || '');
@@ -67,11 +89,11 @@ export async function GET(req: NextRequest) {
             );
         }
 
-        // Fetch soil data
         const soilData = await getSoilData(lat, lon);
-        console.log(soilData);
-        
-        return NextResponse.json({ latitude: lat, longitude: lon, soilData });
+        return NextResponse.json(
+            soilData,
+            { status: 200 }
+        );
     } catch (error) {
         console.error('Error fetching soil data:', error);
         return NextResponse.json(

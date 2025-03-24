@@ -45,7 +45,6 @@ export async function POST(req: NextRequest) {
         }
         
         const vertexAiUrl = `https://${REGION}-aiplatform.googleapis.com/v1/projects/${PROJECT_ID}/locations/${REGION}/endpoints/${ENDPOINT_ID}:predict`;
-        // console.log(vertexAiUrl);
         
         const vertexResponse = await axios.post(vertexAiUrl, { instances }, {
             headers: {

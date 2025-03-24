@@ -20,7 +20,6 @@ export const LocationProvider = ({ children }: { children: React.ReactNode }) =>
     useEffect(() => {
         try {
             const savedLocation = localStorage.getItem("selectedLocation");
-            console.log(savedLocation);
             
             if (savedLocation) {
                 const parsedLocation: Location = JSON.parse(savedLocation);

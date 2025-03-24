@@ -25,7 +25,6 @@ import { Loader2, Leaf, Droplet } from "lucide-react"
 
 function Page() {
   const [password, setPassword] = useState('');
-  const [username, setUsername] = useState('');
   const [passwordMessage, setPasswordMessage] = useState('');
   const [isCheckingPassword, setIsCheckingPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -101,7 +100,6 @@ function Page() {
     <>
       <div className="flex justify-center items-center min-h-screen bg-gradient-to-b from-slate-900 to-slate-800 bg-fixed overflow-auto">
         <div className="w-full max-w-md p-8 space-y-6 bg-slate-800 rounded-lg shadow-lg my-8 border border-slate-700 relative">
-          {/* Decorative elements */}
           <div className="absolute -top-4 -left-4 h-12 w-12 bg-blue-500 rounded-full flex items-center justify-center">
             <Droplet className="h-6 w-6 text-white" />
           </div>
