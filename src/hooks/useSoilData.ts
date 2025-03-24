@@ -7,6 +7,7 @@ export default function useSoilData(){
     const { location } = useLocation();
     const lat = location?.lat;
     const lng = location?.lng;
+    
     const refreshSoilData = async () => {
         try {
             const { data } = await axios.get("/api/soil-data", {
@@ -15,6 +16,8 @@ export default function useSoilData(){
                     lng
                 }
             });
+            console.log(data);
+            
             setSoilData(data);
         } catch (error) {
             console.error("Error fetching soil data:", error);
@@ -22,8 +25,10 @@ export default function useSoilData(){
     };
 
     useEffect(() => {
-        refreshSoilData();
-    }, []);
+        if (lat && lng) {
+            refreshSoilData();
+        }
+    }, [lat]);
 
     return { soilData, refreshSoilData };
 };

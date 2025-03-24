@@ -22,37 +22,33 @@ function WeatherUpdate() {
 
   useEffect(() => {
     if (weatherData) {
-      console.log("Updated Weather Data:", weatherData);
       setIsLoaded(true);
     }
   }, [weatherData]);
 
-
   const weatherIcons: Record<string, LucideIcon> = {
-    "01d": Sun,        // ☀️ Clear sky (Day)
-    "01n": Moon,       // 🌙 Clear sky (Night)
-    "02d": CloudSun,   // 🌤️ Few clouds (Day)
-    "02n": CloudMoon,  // 🌙 Few clouds (Night)
-    "03d": Cloud,      // ☁️ Scattered clouds (Day)
-    "03n": Cloud,      // ☁️ Scattered clouds (Night)
-    "04d": Cloud,      // 🌥️ Broken clouds (Overcast)
-    "04n": Cloud,      // 🌥️ Broken clouds (Overcast Night)
-    "09d": CloudRain,  // 🌧️ Shower rain
-    "09n": CloudRain,  // 🌧️ Shower rain (Night)
-    "10d": CloudSunRain, // 🌦️ Rain (Day)
-    "10n": CloudRain,  // 🌧️ Rain (Night)
-    "11d": CloudLightning, // ⛈️ Thunderstorm
-    "11n": CloudLightning, // ⛈️ Thunderstorm (Night)
-    "13d": CloudSnow,  // ❄️ Snow
-    "13n": CloudSnow,  // ❄️ Snow (Night)
-    "50d": CloudFog,   // 🌫️ Mist
-    "50n": CloudFog,   // 🌫️ Mist (Night)
+    "01d": Sun,               // ☀️ Clear sky (Day)
+    "01n": Moon,              // 🌙 Clear sky (Night)
+    "02d": CloudSun,          // 🌤️ Few clouds (Day)
+    "02n": CloudMoon,         // 🌙 Few clouds (Night)
+    "03d": Cloud,             // ☁️ Scattered clouds (Day)
+    "03n": Cloud,             // ☁️ Scattered clouds (Night)
+    "04d": Cloud,             // 🌥️ Broken clouds (Overcast)
+    "04n": Cloud,             // 🌥️ Broken clouds (Overcast Night)
+    "09d": CloudRain,         // 🌧️ Shower rain
+    "09n": CloudRain,         // 🌧️ Shower rain (Night)
+    "10d": CloudSunRain,      // 🌦️ Rain (Day)
+    "10n": CloudRain,         // 🌧️ Rain (Night)
+    "11d": CloudLightning,    // ⛈️ Thunderstorm
+    "11n": CloudLightning,    // ⛈️ Thunderstorm (Night)
+    "13d": CloudSnow,         // ❄️ Snow
+    "13n": CloudSnow,         // ❄️ Snow (Night)
+    "50d": CloudFog,          // 🌫️ Mist
+    "50n": CloudFog,          // 🌫️ Mist (Night)
   };
   
-  // console.log(weatherData?.weather[0].icon);
-  
 
-  if (!weatherData || !weatherData.weather || !weatherData.weather.length || !weatherData.main) {
+  if (!weatherData?.currentWeather) {
     return (
       <Card
         icon={Cloud}
@@ -66,21 +62,17 @@ function WeatherUpdate() {
     )
   }
 
-  const { icon, description } = weatherData.weather[0];
-  const temperature = weatherData.main.temp;
-  const humidity = weatherData.main.humidity;
-  const windSpeed = weatherData.wind.speed;
+  const { icon, description, temperature, humidity, windSpeed, rainfall } = weatherData.currentWeather;
 
   const SelectedIcon = weatherIcons[icon] || Cloud;
-  console.log(typeof SelectedIcon);
   
 
   return (
     <Card
-      icon={(weatherIcons[weatherData?.weather?.[0]?.icon] || Cloud) as LucideIcon}
+      icon={(weatherIcons[icon] || Cloud) as LucideIcon}
       title="Weather Update"
       description={description}
-      content={`Temperature: ${temperature}°C\nHumidity: ${humidity}%\nWind Speed: ${windSpeed} km/h`}
+      content={`Temperature: ${temperature}°C\nHumidity: ${humidity}%\nWind Speed: ${windSpeed} m/s \nRainfall: ${rainfall} mm`}
       buttonText="See 7-day forecast"
       buttonLink="/weather-forecast"
     />

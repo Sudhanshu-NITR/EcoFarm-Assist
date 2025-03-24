@@ -9,6 +9,7 @@ import Dashboard from "@/components/user-components/dashboard";
 import CropRecommendation from "@/components/user-components/CropRecommendation/CropRecommendation";
 import PestAndDiseaseDetection from "@/components/user-components/PestAndDiseaseDetection/PestAndDiseaseDetection";
 import { LocationProvider } from "@/context/LocationContext";
+import Profile from "@/components/user-components/Profile";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -46,6 +47,7 @@ export default function RootLayout({
                   {activeTab === "dashboard" && <Dashboard/>}
                   {activeTab === "cropRecommendation" && <CropRecommendation />}
                   {activeTab === "pestAndDiseaseDetection" && <PestAndDiseaseDetection />}
+                  {activeTab === "profile" && <Profile />}
                   {children}
                 </div>
               </div>

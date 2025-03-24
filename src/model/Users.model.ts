@@ -8,6 +8,7 @@ export interface User extends Document{
     verifyCode: string;
     verifyCodeExpiry: Date;
     isVerified: boolean;
+    latestAdvice?: Object;
 }
 
 const UserSchema = new Schema({
@@ -15,6 +16,17 @@ const UserSchema = new Schema({
         type: String,   
         required: [true, "User name is required!!"],
         trim: true
+    },
+    latestAdvice: {
+        type: {
+            crop: String,
+            details: String
+        },
+        required: false,
+        default: {
+            crop: "None",
+            details: "No Latest Crop Advice present, to generate, click on the link given below"
+        }
     },
     email: {
         type: String,   

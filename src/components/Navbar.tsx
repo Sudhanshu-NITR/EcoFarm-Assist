@@ -5,12 +5,10 @@ import { motion } from 'framer-motion'
 import { Button } from "@/components/ui/button"
 import { Leaf, Menu } from 'lucide-react'
 import { useSession, signOut } from 'next-auth/react';
-// import { User } from 'next-auth';
 
 function Navbar() {
 
   const {data: session} = useSession();
-  // const user : User = session?.user as User;
 
   return (
     <nav className={`w-full z-50 transition-all duration-300 bg-slate-900/95 backdrop-blur-md shadow-lg`}>

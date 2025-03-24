@@ -1,5 +1,4 @@
 'use client'
-import axios from 'axios';
 import { Cloud, Droplets, Leaf, Thermometer, Sprout, Sun, Loader2, BarChart3, Droplet } from 'lucide-react';
 import React, { useState, useEffect } from 'react'
 import { toast } from 'sonner';
@@ -7,7 +6,7 @@ import { useLocation } from '@/context/LocationContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-
+import { useSession } from 'next-auth/react';
 
 export default function CropRecommendation() {
     const [loading, setLoading] = useState(false);
@@ -16,6 +15,8 @@ export default function CropRecommendation() {
     const [data, setData] = useState<any>(null);
     const [showDetails, setShowDetails] = useState<boolean>(false);
     const [animationProgress, setAnimationProgress] = useState<number>(0);
+
+    const {data: session} = useSession();
 
     const { location } = useLocation();
 
@@ -37,35 +38,24 @@ export default function CropRecommendation() {
     }, [loading]);
 
     async function getEnvironmentalData(lat: number, lng: number) {
-        const [soilRes, weatherRes] = await Promise.all([
-            fetch(`/api/getSoilData?lat=${lat}&lng=${lng}`).then(res => res.json()),
-            fetch(`/api/getWeatherData?lat=${lat}&lng=${lng}`).then(res => res.json()),
-        ]);
+        // const [soilRes, weatherRes] = await Promise.all([
+        //     fetch(`/api/getSoilData?lat=${lat}&lng=${lng}`).then(res => res.json()),
+        //     fetch(`/api/getWeatherData?lat=${lat}&lng=${lng}`).then(res => res.json()),
+        // ]);
 
-        return { ...soilRes, ...weatherRes };
-    }
+        const [weatherRes] = await Promise.all([
+            fetch(`/api/weather-data?lat=${lat}&lng=${lng}`).then(res => res.json())
+        ])
+        const weatherData = weatherRes.data.averagedWeather;
 
-    async function predictCrop(lat: number, lng: number) {
-        const data = await getEnvironmentalData(lat, lng);
-        
-        try {
-            const res = await axios.post("/api/predict-crops", data, {
-                headers: { "Content-Type": "application/json" },
-            });
-
-            if(!res.data.success){
-                toast.error(res.data.message);
-                throw new Error("Error fetching predictions");
-            }
-            return {
-                success: true,
-                crop: res.data.crop,
-                data
-            };
-        } catch (error: any) {
-            toast.error(error);
-            throw new Error("Error fetching predictions");
+        const soilRes = {
+            "N": 100,
+            "P": 50,
+            "K": 150,
+            "pH": 6.5
         }
+
+        return { ...soilRes, ...weatherData };
     }
 
     const handleRecommend = async () => {
@@ -74,45 +64,64 @@ export default function CropRecommendation() {
         setCrop("");
         setData(null);
         setShowDetails(false);
-
+    
         try {
-            const predictionResult = await predictCrop(location!.lat, location!.lng);
-            setCrop(predictionResult.crop);
-            setData(predictionResult.data);
-            
-            try {
-                const response = await axios.post('/api/explain-crop-prediction',
-                    {
-                        crop: predictionResult.crop,
-                        data: predictionResult.data
-                    },
-                    { responseType: "stream" }
-                );
+            const data = await getEnvironmentalData(location!.lat, location!.lng);
+            const inputArray = [[
+                data.N, 
+                data.P, 
+                data.K, 
+                data.temperature, 
+                data.humidity, 
+                data.pH, 
+                data.rainfall
+            ]];
+    
+            const response = await fetch("/api/crop-prediction", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ instances: inputArray, user: session?.user._id }),
+            });
 
-                const reader = response.data.getReader();
-                const decoder = new TextDecoder();
-                let explanationText = "";
-
-                while(true){
-                    const { done, value } = await reader.read();
-                    if(done) break;
-                    explanationText += decoder.decode(value, {stream: true});
-                    setExplanation(explanationText);
-                }
-
-                setTimeout(() => setShowDetails(true), 500);
-
-            } catch (error) {
-                console.error("Streaming error:", error);
-                setExplanation("Error fetching explanation.");
+            if (!response.ok) {
+                console.error("Error:", response.status, response.statusText);
+                return;
             }
+
+            if (!response.body) {
+                console.error("Response body is null");
+                return;
+            }
+
+            const reader = response.body?.getReader();
+            const decoder = new TextDecoder();
+            let text = "";
+
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+                text += decoder.decode(value, { stream: true });
+            }
+            
+            const cleanedText = text.replace(/[\u0000-\u001F\u007F]/g, " ");
+            console.log("Cleaned Response:", cleanedText);
+            
+            const parsedResult = JSON.parse(cleanedText);
+
+            setCrop(parsedResult.crop);
+            setExplanation(parsedResult.explanation);
+
+            setTimeout(() => setShowDetails(true), 500);
         } catch (error) {
-            toast.error("Failed to get crop recommendation. Please try again.");
+            console.error("Streaming error:", error);
+            toast.error("Failed to get crop recommendation.");
         } finally {
             setLoading(false);
         }
-    }
-
+    };
+    
+    
+    
     const getNutrientLevel = (value: number, type: string) => {
         if (type === 'N') {
             return value < 50 ? 'Low' : value < 100 ? 'Medium' : 'High';
@@ -132,30 +141,30 @@ export default function CropRecommendation() {
     };
 
     const cropImageMap: Record<string, string> = {
-        'rice': '🌾',
-        'maize': '🌽',
-        'chickpea': '🌱',
-        'kidneybeans': '🫘',
-        'pigeonpeas': '🌿',
-        'mothbeans': '🌱',
-        'mungbean': '🌱',
-        'blackgram': '🌱',
-        'lentil': '🌰',
-        'pomegranate': '🍎',
-        'banana': '🍌',
-        'mango': '🥭',
-        'grapes': '🍇',
-        'watermelon': '🍉',
-        'muskmelon': '🍈',
-        'apple': '🍎',
-        'orange': '🍊',
-        'papaya': '🍈',
-        'coconut': '🥥',
-        'cotton': '🧶',
-        'jute': '🧵',
-        'coffee': '☕',
+        "apple": "🍎",
+        "banana": "🍌",
+        "blackgram": "🌱",
+        "chickpea": "🌱",
+        "coconut": "🥥",
+        "coffee": "☕",
+        "cotton": "🧶",
+        "grapes": "🍇",
+        "jute": "🧵",
+        "kidneybeans": "🫘",
+        "lentil": "🌰",
+        "maize": "🌽",
+        "mango": "🥭",
+        "mothbeans": "🌱",
+        "mungbean": "🌱",
+        "muskmelon": "🍈",
+        "orange": "🍊",
+        "papaya": "🍈",
+        "pigeonpeas": "🌿",
+        "pomegranate": "🍎",
+        "rice": "🌾",
+        "watermelon": "🍉"
     };
-
+    
     return (
         <div className="p-6 max-w-6xl mx-auto">
             <motion.div 

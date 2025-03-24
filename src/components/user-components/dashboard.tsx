@@ -5,6 +5,7 @@ import LocationSelector from "@/components/LocationSelector/LocationSelector";
 import Card from "@/components/Card";
 import WeatherUpdate from "@/components/user-components/WeatherUpdate";
 import SoilUpdate from "@/components/user-components/SoilUpdate";
+import CropAdvice from "@/components/user-components/CropAdvice";
 
 const Dashboard = () => {
   const { location } = useLocation();
@@ -23,15 +24,7 @@ const Dashboard = () => {
         <div className="h-1 w-32 bg-gradient-to-r from-blue-400 to-teal-400 rounded-full"></div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <Card
-            icon={Leaf}
-            title="Latest Crop Advice"
-            description="Recommended Crop: Wheat 🌾"
-            content="Optimal planting time in your region based on soil conditions and forecasted weather patterns."
-            buttonText="View detailed analysis"
-            buttonLink="/crop-analysis"
-            iconColor="text-teal-400"
-          />
+          <CropAdvice />
           
           <WeatherUpdate />
 
