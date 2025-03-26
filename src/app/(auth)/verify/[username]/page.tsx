@@ -65,7 +65,7 @@ function VerifyAccount() {
         }
     };
 
-    const onSubmit = async (data: z.infer<typeof verifySchema>): Promise<void> => {
+    const onSubmit = async (): Promise<void> => {
         try {
             const decodedEmail = decodeURIComponent(params.username);
 
@@ -91,7 +91,7 @@ function VerifyAccount() {
         } catch (error) {
             console.error("Error in verification of user, ", error);
             const axiosError = error as AxiosError<IApiResponse>;
-            let errorMessage = axiosError.response?.data.message;
+            const errorMessage = axiosError.response?.data.message;
             toast.error('Verification Failed, Please SignUp again', {
                 description: errorMessage,
                 className: "text-red-500 bg-white"

@@ -50,7 +50,7 @@ function Page() {
 
         try {
           const response = await axios.get(`/api/password-validation?password=${password}`);
-          let message = response.data.message;
+          const message = response.data.message;
           setPasswordMessage(message);
         } catch (error) {
           const axiosError = error as AxiosError<IApiResponse>;
@@ -89,7 +89,7 @@ function Page() {
     } catch (error) {
       console.error("Error in signup of user, ", error);
       const axiosError = error as AxiosError<IApiResponse>;
-      let errorMessage = axiosError.response?.data.message;
+      const errorMessage = axiosError.response?.data.message;
       toast.error('SignUp Failed, Please try again', {
         description: errorMessage,
       })

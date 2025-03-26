@@ -1,8 +1,8 @@
 'use client'
 import React, { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { 
-    Sun, Sprout, Leaf, BarChart3 
+    Sun, Leaf, BarChart3 
 } from 'lucide-react';
 
 interface FertilizerRecommendationResultProps {

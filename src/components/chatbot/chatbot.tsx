@@ -1,7 +1,8 @@
 'use client'
 import React, { useState, useRef, useEffect } from "react";
 import { Send, ChevronDown, Sparkles, X, Paperclip, User, Bot, MessageSquare } from "lucide-react";
-import axios from "axios";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 interface Message {
   text: string;
@@ -52,6 +53,50 @@ const Chatbot: React.FC = () => {
     setTimeout(() => setIsTyping(false), 1500 + Math.random() * 1000);
   };
 
+  // const sendMessage = async (): Promise<void> => {
+  //   if (!input.trim()) return;
+  //   const userMessage: Message = { text: input, sender: "user" };
+  //   setMessages((prev) => [...prev, userMessage]);
+  //   setInput("");
+  //   setLoading(true);
+  //   showTypingIndicator();
+
+  //   try {
+  //     const response = await axios.post("/api/chatbot", { userMessage: input }, {
+  //       headers: { "Content-Type": "application/json" },
+  //     });
+
+  //     if (!response.data) {
+  //       throw new Error("Response data is null");
+  //     }
+  //     console.log(response);
+      
+  //     const reader = response.data.getReader();
+  //     let botMessage = "";
+
+  //     while (true) {
+  //       const { done, value } = await reader.read();
+  //       if (done) break;
+  //       botMessage += new TextDecoder().decode(value);
+  //       setMessages((prev) => {
+  //         const newMessages = [...prev];
+  //         const lastMessage = newMessages[newMessages.length - 1];
+  //         if (lastMessage?.sender === "bot" && !lastMessage.isTyping) {
+  //           newMessages[newMessages.length - 1] = { text: botMessage, sender: "bot" };
+  //         } else {
+  //           newMessages.push({ text: botMessage, sender: "bot" });
+  //         }
+  //         return newMessages;
+  //       });
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching response:", error);
+  //     setMessages((prev) => [...prev, { text: "Sorry, I couldn't process that request.", sender: "bot", isError: true }]);
+  //   }
+
+  //   setLoading(false);
+  // };
+
   const sendMessage = async (): Promise<void> => {
     if (!input.trim()) return;
     const userMessage: Message = { text: input, sender: "user" };
@@ -59,43 +104,30 @@ const Chatbot: React.FC = () => {
     setInput("");
     setLoading(true);
     showTypingIndicator();
-
+  
     try {
-      const response = await axios.post("/api/chatbot", { userMessage: input }, {
+      const response = await fetch("/api/chatbot", {
+        method: "POST",
         headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userMessage: input }),
       });
-
-      if (!response.data) {
-        throw new Error("Response data is null");
-      }
-
-      const reader = response.data.getReader();
-      let botMessage = "";
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        botMessage += new TextDecoder().decode(value);
-        setMessages((prev) => {
-          const newMessages = [...prev];
-          const lastMessage = newMessages[newMessages.length - 1];
-          if (lastMessage?.sender === "bot" && !lastMessage.isTyping) {
-            newMessages[newMessages.length - 1] = { text: botMessage, sender: "bot" };
-          } else {
-            newMessages.push({ text: botMessage, sender: "bot" });
-          }
-          return newMessages;
-        });
-      }
+  
+      if (!response.ok) throw new Error("Failed to fetch chatbot response");
+      
+      const data = await response.json(); // ✅ Parse JSON correctly
+      const botMessage = data.reply || "I couldn't process that request.";
+  
+      setMessages((prev) => [...prev, { text: botMessage, sender: "bot" }]);
     } catch (error) {
       console.error("Error fetching response:", error);
       setMessages((prev) => [...prev, { text: "Sorry, I couldn't process that request.", sender: "bot", isError: true }]);
     }
-
+  
     setLoading(false);
-  };
+};
 
-  // Quick suggestions that user can click
+  
+
   const suggestions: string[] = ["Help me with farming", "Best crops for summer", "Soil analysis tips"];
 
   const handleSuggestionClick = (suggestion: string): void => {
@@ -161,13 +193,14 @@ const Chatbot: React.FC = () => {
                 )}
                 <div
                   className={`max-w-[80%] rounded-lg px-3 py-2 text-sm ${msg.sender === "user"
-                      ? "bg-purple-500 text-white rounded-br-none"
-                      : msg.isError
-                        ? "bg-red-500/20 text-red-200 border border-red-500/30"
-                        : "bg-gray-800 text-gray-200 rounded-bl-none"
+                    ? "bg-purple-500 text-white rounded-br-none"
+                    : msg.isError
+                      ? "bg-red-500/20 text-red-200 border border-red-500/30"
+                      : "bg-gray-800 text-gray-200 rounded-bl-none"
                     }`}
                 >
-                  {msg.text}
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>{msg.text}</ReactMarkdown>
+
                 </div>
                 {msg.sender === "user" && (
                   <div className="h-6 w-6 rounded-lg bg-purple-500 flex items-center justify-center ml-2 flex-shrink-0">
@@ -231,8 +264,8 @@ const Chatbot: React.FC = () => {
                   onClick={() => void sendMessage()}
                   disabled={!input.trim() || loading}
                   className={`p-1.5 rounded-md ${!input.trim() || loading
-                      ? "bg-gray-600 text-gray-400"
-                      : "bg-purple-600 text-white hover:bg-purple-700"
+                    ? "bg-gray-600 text-gray-400"
+                    : "bg-purple-600 text-white hover:bg-purple-700"
                     }`}
                 >
                   <Send size={14} />

@@ -1,4 +1,4 @@
 export interface LatestAdvice{
-    crop: String;
-    details: String;
+    crop: string;
+    details: string;
 }

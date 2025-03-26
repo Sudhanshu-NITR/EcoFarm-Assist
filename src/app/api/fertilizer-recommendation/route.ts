@@ -23,12 +23,17 @@ const generationConfig = {
     responseMimeType: "text/plain",
 };
 
-const labelMap: { [key: number]: string } = {
-    0: "apple", 1: "banana", 2: "blackgram", 3: "chickpea", 4: "coconut",
-    5: "coffee", 6: "cotton", 7: "grapes", 8: "jute", 9: "kidneybeans",
-    10: "lentil", 11: "maize", 12: "mango", 13: "mothbeans", 14: "mungbean",
-    15: "muskmelon", 16: "orange", 17: "papaya", 18: "pigeonpeas", 19: "pomegranate",
-    20: "rice", 21: "watermelon"
+const fertilizerLabelMap: { [key: number]: string } = {
+    0: "compost",
+    1: "balanced npk fertilizer",
+    2: "water retaining fertilizer",
+    3: "organic fertilizer",
+    4: "gypsum",
+    5: "lime",
+    6: "dap",
+    7: "urea",
+    8: "muriate of potash",
+    9: "general purpose fertilizer"
 };
 
 export async function POST(req: NextRequest) {
@@ -55,14 +60,14 @@ export async function POST(req: NextRequest) {
     
         const predictedLabel = vertexResponse.data.predictions?.[0] ?? null;
 
-        if (predictedLabel === null || !(predictedLabel in labelMap)) {
+        if (predictedLabel === null || !(predictedLabel in fertilizerLabelMap)) {
             return NextResponse.json(
                 new ApiResponse(500, "Prediction error: No valid crop found"),
                 { status: 500 }
             );
         }
 
-        const cropName = labelMap[predictedLabel];
+        const cropName = fertilizerLabelMap[predictedLabel];
         
         const userMessage = `
             You are an expert agricultural advisor. Given the soil and climate conditions, justify why a specific crop is recommended.
@@ -88,7 +93,7 @@ export async function POST(req: NextRequest) {
 
         const stream = new ReadableStream({
             async start(controller) {
-                controller.enqueue(new TextEncoder().encode(`{"crop": "${cropName}", "explanation": "`));
+                controller.enqueue(new TextEncoder().encode(`{"fertilizer": "${cropName}", "explanation": "`));
         
                 let details = "";
         

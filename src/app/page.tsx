@@ -1,12 +1,12 @@
 'use client'
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Merriweather } from "next/font/google";
 import Navbar from '@/components/LandingComponents/Navbar';
 import HeroSection from '@/components/LandingComponents/Hero';
 import StatsSection from '@/components/LandingComponents/Stats';
 import ServicesSection from '@/components/LandingComponents/Services';
-import AboutUsSection from '../components/LandingComponents/AboutUs';
-import Footer from '../components/Footer';
+import AboutUsSection from '@/components/LandingComponents/AboutUs';
+import Footer from '@/components/Footer';
 
 const merriweather = Merriweather({
   subsets: ["latin"],
@@ -17,17 +17,17 @@ const merriweather = Merriweather({
 
 
 const EcoFarmLanding: React.FC = () => {
-  const [isScrolled, setIsScrolled] = useState<boolean>(false);
+  // const [isScrolled, setIsScrolled] = useState<boolean>(false);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY;
-      setIsScrolled(scrollPosition > 50);
-    };
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     const scrollPosition = window.scrollY;
+  //     setIsScrolled(scrollPosition > 50);
+  //   };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  //   window.addEventListener('scroll', handleScroll);
+  //   return () => window.removeEventListener('scroll', handleScroll);
+  // }, []);
 
   return (
     <div className={`${merriweather.className} min-h-screen font-sans text-white overflow-x-hidden`}>

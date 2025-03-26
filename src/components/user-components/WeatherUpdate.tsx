@@ -48,7 +48,7 @@ function WeatherUpdate() {
   };
   
 
-  if (!weatherData?.currentWeather) {
+  if (!weatherData?.currentWeather || !isLoaded) {
     return (
       <Card
         icon={Cloud}
@@ -64,7 +64,7 @@ function WeatherUpdate() {
 
   const { icon, description, temperature, humidity, windSpeed, rainfall } = weatherData.currentWeather;
 
-  const SelectedIcon = weatherIcons[icon as string] || Cloud;
+  // const SelectedIcon = weatherIcons[icon as string] || Cloud;
   
 
   return (

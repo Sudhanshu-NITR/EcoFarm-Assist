@@ -1,5 +1,5 @@
 "use client";
-import { Leaf, Cloud, Droplet, BarChart3, MessageCircle } from "lucide-react";
+import { Droplet, BarChart3, MessageCircle } from "lucide-react";
 import { useLocation } from "@/context/LocationContext";
 import LocationSelector from "@/components/LocationSelector/LocationSelector";
 import Card from "@/components/Card";

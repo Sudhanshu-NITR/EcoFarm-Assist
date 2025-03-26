@@ -12,8 +12,8 @@ import RecommendationResult from '@/components/user-components/CropRecommendatio
 
 export default function CropRecommendation() {
     const [loading, setLoading] = useState(false);
-    const [crop, setCrop] = useState<String>("");
-    const [explanation, setExplanation] = useState<String>("");
+    const [crop, setCrop] = useState<string>("");
+    const [explanation, setExplanation] = useState<string>("");
     const [data, setData] = useState<any>(null);
     const [animationProgress, setAnimationProgress] = useState<number>(0);
 

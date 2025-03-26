@@ -18,7 +18,8 @@ const eslintConfig = [
         {
           patterns: ["../../../*", "../../*", "../*"]
         }
-      ]
+      ],
+      "@typescript-eslint/no-explicit-any": "off",
     }
   }
 ];

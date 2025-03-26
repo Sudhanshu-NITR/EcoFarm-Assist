@@ -1,5 +1,4 @@
 import nodemailer from "nodemailer";
-import VerificationEmail from "@/../emails/VerificationEmails";
 import { ApiResponse } from "@/types/ApiResponse";
 
 const transporter = nodemailer.createTransport({

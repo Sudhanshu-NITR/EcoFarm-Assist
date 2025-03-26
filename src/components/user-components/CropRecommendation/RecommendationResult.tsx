@@ -50,7 +50,7 @@ export default function RecommendationResult({
         <div className="flex flex-col items-center justify-center h-full p-10 text-center">
             <h3 className="text-xl font-bold text-blue-100">Ready for Your Recommendation</h3>
             <p className="text-slate-400 mt-2">
-                Click "Recommend Crop" to get started with your personalized agricultural guidance.
+                Click &quot;Recommend Crop&quot; to get started with your personalized agricultural guidance.
             </p>
         </div>
     );

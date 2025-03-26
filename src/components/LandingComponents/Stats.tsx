@@ -18,7 +18,7 @@ const StatsSection: React.FC = () => {
             className="text-center mb-16"
           >
             <h2 className="text-4xl font-extrabold mb-4 text-[#4E94FD] drop-shadow-[0_0_10px_rgba(78,148,253,0.3)]">Our Impact</h2>
-            <p className="text-xl max-w-3xl mx-auto">See how we're transforming agriculture with data-driven insights and AI technology.</p>
+            <p className="text-xl max-w-3xl mx-auto">See how we&apos;re transforming agriculture with data-driven insights and AI technology.</p>
           </motion.div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

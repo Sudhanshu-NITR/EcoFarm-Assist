@@ -1,13 +1,11 @@
 'use client'
 import { Geist, Geist_Mono } from "next/font/google";
-import Chatbot from "@/components/chatbot/chatbot";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Sidebar from "@/components/Sidebar";
 import { useEffect, useState } from "react";
 import Dashboard from "@/components/user-components/dashboard";
 import CropRecommendation from "@/components/user-components/CropRecommendation/CropRecommendation";
-import PestAndDiseaseDetection from "@/components/user-components/PestAndDiseaseDetection/PestAndDiseaseDetection";
 import { LocationProvider } from "@/context/LocationContext";
 import Profile from "@/components/user-components/Profile";
 import PestAndDiseaseDetectionPage from "@/components/user-components/PestAndDiseaseDetection/PestAndDiseaseDetectionPage";

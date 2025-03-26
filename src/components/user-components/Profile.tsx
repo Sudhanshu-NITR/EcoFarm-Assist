@@ -1,10 +1,8 @@
 'use client';
 import React, { useState } from 'react';
 import { Droplet, Leaf } from 'lucide-react';
-import ProfileHeader from './ProfileComponents/ProfileHeader';
 import UserInfoCard from './ProfileComponents/ProfileHeader';
 import LanguageSettingsCard from './ProfileComponents/LanguageCard';
-import PasswordChangeCard from './ProfileComponents/PasswordChange';
 import Password from './ProfileComponents/Password';
 
 export default function ProfilePage() {

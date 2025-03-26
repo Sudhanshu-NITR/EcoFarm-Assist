@@ -5,11 +5,10 @@ import useSoilData from '@/hooks/useSoilData';
 import SoilData from '@/types/SoilData';
 
 function SoilUpdate() {
-    const { soilData, refreshSoilData } = useSoilData();
+    const { soilData } = useSoilData();
     const [storedSoilData, setStoredSoilData] = useState(null);
 
     useEffect(() => {
-        const savedData = localStorage.getItem("soilData");
         if (typeof window !== "undefined") {
             const storedData = localStorage.getItem("soilData");
             if (storedData) {

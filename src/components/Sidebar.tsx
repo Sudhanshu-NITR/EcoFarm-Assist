@@ -56,8 +56,8 @@ function Sidebar({activeTab, setActiveTab} : {activeTab: string, setActiveTab: (
                         Pest & Disease Detection
                     </Button>
                     <Button 
-                        variant={activeTab === "cropRecommendation" ? "default" : "ghost"} 
-                        className={`w-full cursor-pointer justify-start ${activeTab === "cropRecommendation" ? "bg-blue-600 hover:bg-blue-700" : "text-slate-300 hover:text-white hover:bg-slate-700"}`}
+                        variant={activeTab === "fertilizerRecommendation" ? "default" : "ghost"} 
+                        className={`w-full cursor-pointer justify-start ${activeTab === "fertilizerRecommendation" ? "bg-blue-600 hover:bg-blue-700" : "text-slate-300 hover:text-white hover:bg-slate-700"}`}
                         onClick={() => setActiveTab("fertilizerRecommendation")}
                     >
                         <TestTube className="mr-2 h-4 w-4" />

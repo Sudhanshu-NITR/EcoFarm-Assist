@@ -6,7 +6,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardFooter } from "@/comp
 import { Button } from "@/components/ui/button";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faBug, faChartLine, faRobot, faSeedling } from '@fortawesome/free-solid-svg-icons';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import Image from 'next/image';
 
 interface Service {
     icon: React.ReactNode;
@@ -113,7 +113,7 @@ const ServicesSection: React.FC = () => {
                                     </Button>
                                 </div>
                                 <div className="mr-4">
-                                    <img
+                                    <Image
                                         src={services[expandedServiceIndex].image}
                                         alt={services[expandedServiceIndex].title}
                                         className="max-w-full max-h-full h-auto w-auto"

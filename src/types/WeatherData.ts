@@ -1,16 +1,16 @@
 export interface WeatherData {
   currentWeather: {
-    temperature: Number;
-    humidity: Number;
-    rainfall: Number;
-    windSpeed: Number;
-    icon: String;
-    description: String;
+    temperature: number;
+    humidity: number;
+    rainfall: number;
+    windSpeed: number;
+    icon: string;
+    description: string;
   };
   averagedWeather: {
-    temperature: Number;
-    humidity: Number;
-    rainfall: Number;
-    windSpeed: Number
+    temperature: number;
+    humidity: number;
+    rainfall: number;
+    windSpeed: number
   }
 }

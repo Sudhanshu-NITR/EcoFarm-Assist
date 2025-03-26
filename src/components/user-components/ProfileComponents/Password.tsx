@@ -1,18 +1,15 @@
 'use client'
 import { useForm } from "react-hook-form"
-import * as z from "zod"
-import Link from "next/link"
 import React, { useEffect, useState } from "react"
 import { toast } from "sonner"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { zodResolver } from "@hookform/resolvers/zod"
 import axios, { AxiosError } from "axios"
-import { IApiResponse } from "../../../types/ApiResponse"
+import { IApiResponse } from "@/types/ApiResponse"
 import { Loader2, Lock } from "lucide-react"
 import { useDebounceCallback } from "usehooks-ts"
-import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { useSession } from "next-auth/react"
 
 function Password() {
@@ -45,7 +42,7 @@ function Password() {
 
                 try {
                     const response = await axios.get(`/api/password-validation?password=${newPassword}`);
-                    let message = response.data.message;
+                    const message = response.data.message;
                     setPasswordMessage(message);
                 } catch (error) {
                     const axiosError = error as AxiosError<IApiResponse>;
@@ -70,7 +67,7 @@ function Password() {
 
                 try {
                     const response = await axios.get(`/api/confirm-password-validation?newPassword=${newPassword}&confirmPassword=${confirmPassword}`);
-                    let message = response.data.message;
+                    const message = response.data.message;
                     setConfirmPasswordMessage(message);
                 } catch (error) {
                     const axiosError = error as AxiosError<IApiResponse>;
@@ -103,7 +100,7 @@ function Password() {
         } catch (error) {
             console.error("Error changing password of user, ", error);
             const axiosError = error as AxiosError<IApiResponse>;
-            let errorMessage = axiosError.response?.data.message;
+            const errorMessage = axiosError.response?.data.message;
             toast.error('Password Change Failed, Please try again', {
                 description: errorMessage,
             })

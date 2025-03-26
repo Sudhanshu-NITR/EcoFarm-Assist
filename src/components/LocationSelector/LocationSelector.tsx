@@ -1,6 +1,5 @@
 "use client";
 import { useLocation } from "@/context/LocationContext";
-import axios from "axios";
 import { useRef, useState, useEffect } from "react";
 
 const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
