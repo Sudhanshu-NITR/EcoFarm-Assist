@@ -2,10 +2,10 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useLocation } from "@/context/LocationContext";
-import { WeatherResponse } from "@/types/WeatherData";
+import { WeatherData } from "@/types/WeatherData";
 
 export default function useWeatherData() {
-    const [weatherData, setWeatherData] = useState<WeatherResponse | null>(null);
+    const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
     const { location } = useLocation();
     const lat = location?.lat;
     const lng = location?.lng;
@@ -18,8 +18,9 @@ export default function useWeatherData() {
             const { data } = await axios.get("/api/weather-data", {
                 params: { lat, lng }
             });
-
-            setWeatherData(data);
+            setWeatherData(data.data.weatherData);
+            console.log(data.data.weatherData);
+            
         } catch (error) {
             console.error("Error fetching weather data:", error);
             throw error;
@@ -32,5 +33,5 @@ export default function useWeatherData() {
         }
     }, [lat, lng]);
 
-    return { weatherData: weatherData?.data ?? null, refreshWeatherData }; 
+    return { weatherData, refreshWeatherData }; 
 };

@@ -3,4 +3,6 @@ export default interface SoilData {
     phosphorus?: number;
     potassium?: number;
     ph?: number;
+    soc?: number,
+    soil_moisture?: number;
 }

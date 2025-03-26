@@ -10,6 +10,9 @@ import CropRecommendation from "@/components/user-components/CropRecommendation/
 import PestAndDiseaseDetection from "@/components/user-components/PestAndDiseaseDetection/PestAndDiseaseDetection";
 import { LocationProvider } from "@/context/LocationContext";
 import Profile from "@/components/user-components/Profile";
+import PestAndDiseaseDetectionPage from "@/components/user-components/PestAndDiseaseDetection/PestAndDiseaseDetectionPage";
+import WeatherInsights from "@/components/WeatherInsights";
+import FertilizerRecommendation from "@/components/user-components/FertilizerRecommendation/FertilizerRecommendation";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -46,8 +49,10 @@ export default function RootLayout({
                 <div className="flex-1">
                   {activeTab === "dashboard" && <Dashboard/>}
                   {activeTab === "cropRecommendation" && <CropRecommendation />}
-                  {activeTab === "pestAndDiseaseDetection" && <PestAndDiseaseDetection />}
+                  {activeTab === "pestAndDiseaseDetection" && <PestAndDiseaseDetectionPage />}
+                  {activeTab === "fertilizerRecommendation" && <FertilizerRecommendation />}
                   {activeTab === "profile" && <Profile />}
+                  {activeTab === "weatherInsights" && <WeatherInsights />}
                   {children}
                 </div>
               </div>

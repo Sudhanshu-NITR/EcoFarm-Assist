@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import { Button } from "@/components/ui/button"
 import { Leaf, Menu } from 'lucide-react'
 import { useSession, signOut } from 'next-auth/react';
+import { Link as ScrollLink } from 'react-scroll';
 
 function Navbar() {
 
@@ -34,9 +35,15 @@ function Navbar() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="hidden md:flex items-center space-x-8"
           >
-            <a href="#" className="text-slate-300 hover:text-blue-400 transition-colors duration-300 border-b-2 border-transparent hover:border-blue-400 pb-1">About</a>
-            <a href="#services" className="text-slate-300 hover:text-blue-400 transition-colors duration-300 border-b-2 border-transparent hover:border-blue-400 pb-1">Services</a>
-            <a href="#" className="text-slate-300 hover:text-blue-400 transition-colors duration-300 border-b-2 border-transparent hover:border-blue-400 pb-1">Contact</a>
+            <ScrollLink to="/#about" smooth={true} duration={500} className="text-slate-300 hover:text-blue-400 transition-colors duration-300 border-b-2 border-transparent hover:border-blue-400 pb-1 cursor-pointer">
+              About
+            </ScrollLink>
+            <ScrollLink to="/#services" smooth={true} duration={500} className="text-slate-300 hover:text-blue-400 transition-colors duration-300 border-b-2 border-transparent hover:border-blue-400 pb-1 cursor-pointer">
+              Services
+            </ScrollLink>
+            <ScrollLink to="/#contact" smooth={true} duration={500} className="text-slate-300 hover:text-blue-400 transition-colors duration-300 border-b-2 border-transparent hover:border-blue-400 pb-1 cursor-pointer">
+              Contact
+            </ScrollLink>
             {
               session? 
               (

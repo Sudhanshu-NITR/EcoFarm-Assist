@@ -4,18 +4,23 @@ import { useLocation } from "@/context/LocationContext";
 import SoilData from "@/types/SoilData";
 
 export default function useSoilData() {
-    const [soilData, setSoilData] = useState<SoilData | null>(() => {
-        const storedData = localStorage.getItem("soilData");
-        return storedData ? JSON.parse(storedData) : null;
-    });
-
+    const [soilData, setSoilData] = useState<SoilData | null>(null);
     const { location } = useLocation();
     const lat = location?.lat;
     const lng = location?.lng;
 
+    useEffect(() => {
+        if (typeof window !== "undefined") {  // Ensure it's running in the browser
+            const storedData = localStorage.getItem("soilData");
+            if (storedData) {
+                setSoilData(JSON.parse(storedData));
+            }
+        }
+    }, []);
+
     const refreshSoilData = async () => {
         try {
-            const { data } = await axios.get("/api/soil-data--change-while-deployment", { params: { lat, lng } });
+            const { data } = await axios.get("/api/soil-data", { params: { lat, lng } });
             setSoilData(data);
             if (typeof window !== "undefined") {  
                 localStorage.setItem("soilData", JSON.stringify(data));
@@ -32,4 +37,4 @@ export default function useSoilData() {
     }, [lat, lng]);
 
     return { soilData, refreshSoilData };
-};
+}

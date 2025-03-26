@@ -166,7 +166,7 @@ function Page() {
                         </SelectTrigger>
                         <SelectContent className="bg-slate-700 border-slate-600 text-slate-200">
                           {[
-                            "Hindi", "Bengali", "Telugu", "Marathi", "Tamil", 
+                            "English", "Hindi", "Bengali", "Telugu", "Marathi", "Tamil", 
                             "Urdu", "Gujarati", "Malayalam", "Kannada", "Odia", 
                             "Punjabi", "Assamese", "Maithili", "Santali", "Kashmiri", 
                             "Nepali", "Konkani", "Sindhi", "Dogri", "Manipuri", "Bodo"

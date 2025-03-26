@@ -65,7 +65,8 @@ export async function POST(request: Request){
             name, 
             verifyCode
         )
-
+        console.log(emailResponse);
+        
         if(!emailResponse.success){
             return Response.json(
                 new ApiResponse(500, emailResponse?.message || "Email sending failed"),

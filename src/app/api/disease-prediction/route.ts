@@ -4,16 +4,18 @@ import axios from "axios";
 
 export async function POST(req: NextRequest) {
     try {
-        // Read the image as a buffer from the request body
+
         const imageBuffer = await req.arrayBuffer();
 
-        // Send the image as binary (JPEG) to the pest detection model
+        console.log(imageBuffer);
+        
+
         const modelResponse = await axios.post(
             process.env.PEST_DETECTION_API_URL as string,
-            imageBuffer,  // Send raw image bytes
+            imageBuffer, 
             {
                 headers: {
-                    "Content-Type": "image/jpeg", // Ensure correct content type
+                    "Content-Type": "image/jpeg",
                 },
             }
         );

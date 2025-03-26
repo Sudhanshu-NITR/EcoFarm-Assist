@@ -19,7 +19,7 @@ import {
 function WeatherUpdate() {
   const { weatherData } = useWeatherData();
   const [isLoaded, setIsLoaded] = useState(false);
-
+  
   useEffect(() => {
     if (weatherData) {
       setIsLoaded(true);
@@ -64,14 +64,14 @@ function WeatherUpdate() {
 
   const { icon, description, temperature, humidity, windSpeed, rainfall } = weatherData.currentWeather;
 
-  const SelectedIcon = weatherIcons[icon] || Cloud;
+  const SelectedIcon = weatherIcons[icon as string] || Cloud;
   
 
   return (
     <Card
-      icon={(weatherIcons[icon] || Cloud) as LucideIcon}
+      icon={(weatherIcons[icon as string] || Cloud) as LucideIcon}
       title="Weather Update"
-      description={description}
+      description={description as string}
       content={`Temperature: ${temperature}°C\nHumidity: ${humidity}%\nWind Speed: ${windSpeed} m/s \nRainfall: ${rainfall} mm`}
       buttonText="See 7-day forecast"
       buttonLink="/weather-forecast"

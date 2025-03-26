@@ -1,8 +1,7 @@
 'use client'
-import Link from 'next/link'
 import React, { useEffect } from 'react'
 import { Button } from '@/components/ui/button'
-import { Cloud, Home, Leaf, MessageCircle, User } from 'lucide-react'
+import { Cloud, Home, Leaf, TestTube, Bug, User } from 'lucide-react'
 
 function Sidebar({activeTab, setActiveTab} : {activeTab: string, setActiveTab: (tab: string) => void}) {
 
@@ -53,26 +52,28 @@ function Sidebar({activeTab, setActiveTab} : {activeTab: string, setActiveTab: (
                         className={`w-full cursor-pointer justify-start ${activeTab === "pestAndDiseaseDetection" ? "bg-blue-600 hover:bg-blue-700" : "text-slate-300 hover:text-white hover:bg-slate-700"}`}
                         onClick={() => setActiveTab("pestAndDiseaseDetection")}
                     >
-                        <Leaf className="mr-2 h-4 w-4" />
+                        <Bug className="mr-2 h-4 w-4" />
                         Pest & Disease Detection
+                    </Button>
+                    <Button 
+                        variant={activeTab === "cropRecommendation" ? "default" : "ghost"} 
+                        className={`w-full cursor-pointer justify-start ${activeTab === "cropRecommendation" ? "bg-blue-600 hover:bg-blue-700" : "text-slate-300 hover:text-white hover:bg-slate-700"}`}
+                        onClick={() => setActiveTab("fertilizerRecommendation")}
+                    >
+                        <TestTube className="mr-2 h-4 w-4" />
+                        Fertilizer Recommendation
                     </Button>
 
                     <Button 
                         variant={activeTab === "weather" ? "default" : "ghost"} 
                         className={`w-full cursor-pointer justify-start ${activeTab === "weather" ? "bg-blue-600 hover:bg-blue-700" : "text-slate-300 hover:text-white hover:bg-slate-700"}`}
-                        onClick={() => setActiveTab("weather")}
+                        onClick={() => setActiveTab("weatherInsights")}
                     >
                         <Cloud className="mr-2 h-4 w-4" />
                         Weather Insights
                     </Button>
-                    <Button 
-                        variant={activeTab === "chat" ? "default" : "ghost"} 
-                        className={`w-full cursor-pointer justify-start ${activeTab === "chat" ? "bg-blue-600 hover:bg-blue-700" : "text-slate-300 hover:text-white hover:bg-slate-700"}`}
-                        onClick={() => setActiveTab("chat")}
-                    >
-                        <MessageCircle className="mr-2 h-4 w-4" />
-                        AI Chatbot
-                    </Button>
+
+                    
                     <Button 
                         variant={activeTab === "profile" ? "default" : "ghost"} 
                         className={`w-full cursor-pointer justify-start ${activeTab === "profile" ? "bg-blue-600 hover:bg-blue-700" : "text-slate-300 hover:text-white hover:bg-slate-700"}`}

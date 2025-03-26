@@ -27,6 +27,7 @@ const getSoilData = async (lat: number, lon: number) => {
         phosphorus: 'projects/soilgrids-isric/phosphorus_mean',
         potassium: 'projects/soilgrids-isric/potassium_mean',
         ph: 'projects/soilgrids-isric/phh2o_mean',
+        soc: 'OpenLandMap/SOL/SOL_ORGANIC-CARBON_USDA-6A1C_M/v02'
     };
 
     const point = ee.Geometry.Point([lon, lat]);
@@ -57,6 +58,24 @@ const getSoilData = async (lat: number, lon: number) => {
                 soilData[key] = phValues.length
                     ? phValues.reduce((a, b) => a + b, 0) / phValues.length
                     : 'No data available';
+            } else if (key === 'soc') {
+                // soilData[key] = {
+                //     b0: sampled?.['b0'] ?? 'No data',
+                //     b10: sampled?.['b10'] ?? 'No data',
+                //     b30: sampled?.['b30'] ?? 'No data',
+                //     b60: sampled?.['b60'] ?? 'No data',
+                //     b100: sampled?.['b100'] ?? 'No data',
+                //     b200: sampled?.['b200'] ?? 'No data'
+                // };
+                const socValues = [
+                    sampled?.['b0'],
+                    sampled?.['b10'],
+                    sampled?.['b30']
+                ].filter(v => v !== undefined);
+
+                soilData[key] = socValues.length
+                    ? socValues.reduce((a, b) => a + b, 0) / socValues.length
+                    : 'No data available';
             } else {
                 soilData[key] = sampled ?? 'No data available';
             }
@@ -68,8 +87,22 @@ const getSoilData = async (lat: number, lon: number) => {
     soilData['nitrogen'] = soilData['nitrogen']/10;
     soilData['phosphorus'] = 42;
     soilData['potassium'] = 43;
-    console.log(soilData);
-    
+
+    try {
+        const today = ee.Date(new Date());
+        const lastWeek = today.advance(-7, 'day');
+
+        const smapDataset = ee.ImageCollection('NASA/SMAP/SPL3SMP_E/006')
+            .filter(ee.Filter.date(lastWeek, today))
+            .select('soil_moisture_am')
+            .mean();
+
+        const smapSampled = smapDataset.sample(point, 250).first().toDictionary().getInfo();
+        soilData['soil_moisture'] = smapSampled?.['soil_moisture_am'] ?? 'No data available';
+    } catch (error) {
+        soilData['soil_moisture'] = `Error: ${(error as Error).message}`;
+    }
+
     return soilData;
 };
 

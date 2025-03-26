@@ -61,7 +61,7 @@ export async function GET(req: NextRequest) {
         };
         
         return NextResponse.json(
-            new ApiResponse(200, "Successfully fetched weather data!", {currentWeather, averagedWeather}),
+            new ApiResponse(200, "Successfully fetched weather data!", {weatherData: {currentWeather, averagedWeather}}),
             { status: 200 }
         );
     } catch (error) {
