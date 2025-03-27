@@ -3,6 +3,7 @@ import { Leaf, Upload, AlertCircle, Loader2, Camera, RefreshCw, Info } from 'luc
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
+import NextImage from 'next/image';
 
 export default function PestAndDiseaseDetection() {
     const [image, setImage] = useState<Blob | null>(null);
@@ -253,7 +254,7 @@ export default function PestAndDiseaseDetection() {
                                         `}>
                                             {preview ? (
                                                 <div className="relative w-full h-full">
-                                                    <img src={preview} alt="Uploaded Leaf" className="w-full h-full object-contain p-2" />
+                                                    <NextImage src={preview} alt="Uploaded Leaf" className="w-full h-full object-contain p-2" />
                                                     <div className="absolute inset-0 bg-black/60 opacity-0 hover:opacity-100 flex items-center justify-center transition-opacity">
                                                         <p className="text-white text-sm">Click to replace image</p>
                                                     </div>
@@ -280,7 +281,7 @@ export default function PestAndDiseaseDetection() {
                                             />
                                             {preview && (
                                                 <div className="absolute inset-0">
-                                                    <img src={preview} alt="Captured" className="w-full h-full object-contain" />
+                                                    <NextImage src={preview} alt="Captured" className="w-full h-full object-contain" />
                                                 </div>
                                             )}
                                         </div>

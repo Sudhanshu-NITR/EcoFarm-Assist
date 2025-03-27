@@ -2,6 +2,7 @@
 import React, { RefObject } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Upload, Camera, RefreshCw } from 'lucide-react';
+import Image from 'next/image';
 
 interface ImageUploadSectionProps {
   activeTab: 'upload' | 'camera';
@@ -77,7 +78,7 @@ function UploadSection({
       `}>
         {preview ? (
           <div className="relative w-full h-full">
-            <img src={preview} alt="Uploaded Leaf" className="w-full h-full object-contain p-2" />
+            <Image src={preview} alt="Uploaded Leaf" className="w-full h-full object-contain p-2" />
             <div className="absolute inset-0 bg-black/60 opacity-0 hover:opacity-100 flex items-center justify-center transition-opacity">
               <p className="text-blue-100 text-sm">Click to replace image</p>
             </div>
@@ -118,7 +119,7 @@ function CameraSection({
         />
         {preview && (
           <div className="absolute inset-0">
-            <img src={preview} alt="Captured" className="w-full h-full object-contain" />
+            <Image src={preview} alt="Captured" className="w-full h-full object-contain" />
           </div>
         )}
       </div>

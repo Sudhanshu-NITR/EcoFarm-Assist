@@ -16,7 +16,7 @@ export default function useSoilData() {
                 setSoilData(JSON.parse(storedData));
             }
         }
-    }, []);
+    });
 
     const refreshSoilData = async () => {
         try {

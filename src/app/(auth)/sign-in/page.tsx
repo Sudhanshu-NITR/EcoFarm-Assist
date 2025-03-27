@@ -130,7 +130,7 @@ function Page() {
           
           <div className="text-center mt-4 pt-4 border-t border-slate-700">
             <p className="text-slate-300">
-              Don&apos;t have an account?&nbsp
+              Don&apos;t have an account?&nbsp;
               <Link href="/sign-up" className="text-blue-400 hover:text-blue-300 font-medium">
                 Sign up
               </Link> 

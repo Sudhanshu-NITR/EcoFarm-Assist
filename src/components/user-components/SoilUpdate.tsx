@@ -53,7 +53,7 @@ function SoilUpdate() {
         <Card
             icon={Droplet}
             title="Soil Insights"
-            description={`pH Level: ${dataToUse.ph!.toFixed(2)} - ${getPhMessage(dataToUse.ph!)}`}
+            description={`pH Level: ${dataToUse.ph?.toFixed(2)} - ${getPhMessage(dataToUse.ph!)}`}
             content={`Nitrogen Level: ${(dataToUse.nitrogen! / 10).toFixed(2)} mg/kg - ${getNitrogenMessage(dataToUse.nitrogen!)}`}
             buttonText="View soil health report"
             buttonLink="/soil-report"

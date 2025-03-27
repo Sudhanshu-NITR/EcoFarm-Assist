@@ -1,5 +1,6 @@
 "use client";
 import { useLocation } from "@/context/LocationContext";
+import axios from "axios";
 import { useRef, useState, useEffect } from "react";
 
 const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
@@ -83,57 +84,57 @@ export default function LocationSelector() {
 
   const lastFetchedLocation = { lat: 0, lng: 0 }; // Stores the last fetched location
 
-  // const fetchAddress = async (lat: number, lng: number) => {
-  //   if (lastFetchedLocation.lat === lat && lastFetchedLocation.lng === lng) {
-  //     console.log("Skipping API request: Location hasn't changed.");
-  //     return;
-  //   }
-
-  //   lastFetchedLocation.lat = lat;
-  //   lastFetchedLocation.lng = lng;
-
-  //   const tempAddress = "Fetching address...";
-  //   setAddress(tempAddress);
-  //   setLocation({ lat, lng, address: tempAddress });
-
-  //   try {
-  //     const response = await axios.get(
-  //       `https://maps.googleapis.com/maps/api/geocode/json`,
-  //       {
-  //         params: {
-  //           latlng: `${lat},${lng}`,
-  //           key: GOOGLE_MAPS_API_KEY,
-  //         },
-  //       }
-  //     );
-
-  //     const formattedAddress =
-  //       response.data.results[0]?.formatted_address || "Unknown Location";
-
-  //     setAddress(formattedAddress);
-  //     setLocation({ lat, lng, address: formattedAddress });
-
-  //     console.log("Updated Address:", formattedAddress);
-  //   } catch (error) {
-  //     console.error("Error fetching address:", error);
-  //     setAddress("Error fetching address");
-  //     setLocation({ lat, lng, address: "Error fetching address" });
-  //   }
-  // };
-
   const fetchAddress = async (lat: number, lng: number) => {
-    if (lastFetchedLocation?.lat === lat && lastFetchedLocation?.lng === lng) {
-      console.log("Skipping state update: Location hasn't changed.");
+    if (lastFetchedLocation.lat === lat && lastFetchedLocation.lng === lng) {
+      console.log("Skipping API request: Location hasn't changed.");
       return;
     }
-  
-    const tempAddress = `Lat: ${lat.toFixed(4)}, Lng: ${lng.toFixed(4)}`;
-  
+
+    lastFetchedLocation.lat = lat;
+    lastFetchedLocation.lng = lng;
+
+    const tempAddress = "Fetching address...";
     setAddress(tempAddress);
     setLocation({ lat, lng, address: tempAddress });
-  
-    console.log("Updated Location:", { lat, lng, address: tempAddress });
+
+    try {
+      const response = await axios.get(
+        `https://maps.googleapis.com/maps/api/geocode/json`,
+        {
+          params: {
+            latlng: `${lat},${lng}`,
+            key: GOOGLE_MAPS_API_KEY,
+          },
+        }
+      );
+
+      const formattedAddress =
+        response.data.results[0]?.formatted_address || "Unknown Location";
+
+      setAddress(formattedAddress);
+      setLocation({ lat, lng, address: formattedAddress });
+
+      console.log("Updated Address:", formattedAddress);
+    } catch (error) {
+      console.error("Error fetching address:", error);
+      setAddress("Error fetching address");
+      setLocation({ lat, lng, address: "Error fetching address" });
+    }
   };
+
+  // const fetchAddress = async (lat: number, lng: number) => {
+  //   if (lastFetchedLocation?.lat === lat && lastFetchedLocation?.lng === lng) {
+  //     console.log("Skipping state update: Location hasn't changed.");
+  //     return;
+  //   }
+  
+  //   const tempAddress = `Lat: ${lat?.toFixed(4)}, Lng: ${lng?.toFixed(4)}`;
+  
+  //   setAddress(tempAddress);
+  //   setLocation({ lat, lng, address: tempAddress });
+  
+  //   console.log("Updated Location:", { lat, lng, address: tempAddress });
+  // };
   
 
 
