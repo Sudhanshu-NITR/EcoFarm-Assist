@@ -4,7 +4,7 @@ import AuthProvider from "@/context/AuthProvider";
 import "./globals.css";
 import Chatbot from "@/components/chatbot/chatbot";
 import { Toaster } from "@/components/ui/sonner"
-import GoogleMapsLoader from "@/components/GoogleMapsLoader";
+// import GoogleMapsLoader from "@/components/GoogleMapsLoader";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,16 +28,20 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <AuthProvider>
-          <body
-            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-            >
-            <GoogleMapsLoader />
-            {children}
-            <Chatbot />
-            <Toaster />
-          </body>
-      </AuthProvider>
+      <head>
+        <script
+          src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`}
+          async
+        ></script>
+      </head>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <AuthProvider>
+          {/* <GoogleMapsLoader /> */}
+          {children}
+          <Chatbot />
+          <Toaster />
+        </AuthProvider>
+      </body>
     </html>
   );
 }
