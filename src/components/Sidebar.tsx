@@ -10,7 +10,7 @@ function Sidebar({activeTab, setActiveTab} : {activeTab: string, setActiveTab: (
         if(storedTab){
             setActiveTab(storedTab);
         }
-    });
+    }, []);
 
     const handleTabChange = (tab: string) =>{
         setActiveTab(tab);

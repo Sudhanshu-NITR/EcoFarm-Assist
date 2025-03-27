@@ -2,6 +2,9 @@
 import { useLocation } from "@/context/LocationContext";
 import axios from "axios";
 import { useRef, useState, useEffect } from "react";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { MapPin, Navigation } from "lucide-react";
 
 const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
@@ -28,7 +31,7 @@ export default function LocationSelector() {
     }, 500);
 
     return () => clearInterval(checkGoogleMaps);
-  }, []);
+  });
 
   const initializeMap = () => {
     if (!mapRef.current || !autoCompleteRef.current) return;
@@ -118,17 +121,40 @@ export default function LocationSelector() {
   };
 
   return (
-    <>
-      <div className="space-y-4">
-        <input
-          ref={autoCompleteRef}
-          type="text"
-          placeholder="Search location..."
-          className="p-2 w-full border rounded"
-        />
-        <div ref={mapRef} className="w-full h-64 border rounded"></div>
-        {address && <p className="text-sm">Selected Location: {address}</p>}
-      </div>
-    </>
+    <Card className="bg-slate-800 border-slate-700 shadow-lg mt-8 hover:border-blue-500 transition-all">
+      <CardHeader className="pb-2">
+        <CardTitle className="text-blue-100 flex items-center">
+          <MapPin className="mr-2 h-5 w-5 text-blue-400" />
+          Location Selector
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="bg-slate-700 p-4 rounded-md border border-slate-600 space-y-4">
+          <input
+            ref={autoCompleteRef}
+            type="text"
+            placeholder="Search location..."
+            className="p-2 w-full border rounded bg-slate-600 text-slate-200 border-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <div ref={mapRef} className="w-full h-64 border rounded border-slate-500"></div>
+          {address && (
+            <div className="text-sm text-slate-300 flex items-center">
+              <Navigation className="mr-2 h-4 w-4 text-blue-400" />
+              Selected Location: {address}
+            </div>
+          )}
+          <Button 
+            variant="link" 
+            className="mt-2 text-blue-400 hover:text-blue-300 p-0"
+            onClick={() => {
+              // Add any additional action or logging here
+              console.log("Location selected:", address);
+            }}
+          >
+            Confirm Location
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
   );
 }

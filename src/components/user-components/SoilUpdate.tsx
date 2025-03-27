@@ -22,7 +22,7 @@ function SoilUpdate() {
     if (!dataToUse) {
         return (
             <Card
-                icon={Droplet}
+                Icon={Droplet}
                 title="Soil Insights"
                 description="pH Level: Loading..."
                 content="Loading data..."
@@ -51,7 +51,7 @@ function SoilUpdate() {
 
     return (
         <Card
-            icon={Droplet}
+            Icon={Droplet}
             title="Soil Insights"
             description={`pH Level: ${dataToUse.ph?.toFixed(2)} - ${getPhMessage(dataToUse.ph!)}`}
             content={`Nitrogen Level: ${(dataToUse.nitrogen! / 10).toFixed(2)} mg/kg - ${getNitrogenMessage(dataToUse.nitrogen!)}`}

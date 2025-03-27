@@ -22,6 +22,8 @@ export default function useSoilData() {
         try {
             const { data } = await axios.get("/api/soil-data", { params: { lat, lng } });
             setSoilData(data);
+            console.log("useSoilData -> ", data);
+            
             if (typeof window !== "undefined") {  
                 localStorage.setItem("soilData", JSON.stringify(data));
             }

@@ -1,14 +1,11 @@
 "use client";
-import { Droplet, BarChart3, MessageCircle } from "lucide-react";
-import { useLocation } from "@/context/LocationContext";
+import { Droplet } from "lucide-react";
 import LocationSelector from "@/components/LocationSelector/LocationSelector";
-import Card from "@/components/Card";
 import WeatherUpdate from "@/components/user-components/WeatherUpdate";
 import SoilUpdate from "@/components/user-components/SoilUpdate";
 import CropAdvice from "@/components/user-components/CropAdvice";
 
 const Dashboard = () => {
-  const { location } = useLocation();
 
   return (
     <div className="flex-1 p-6 overflow-auto">
@@ -31,7 +28,7 @@ const Dashboard = () => {
           <SoilUpdate />
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+        {/* <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
           <Card
             icon={BarChart3}
             title="Yield Forecast"
@@ -49,20 +46,14 @@ const Dashboard = () => {
             buttonText="Ask AI Assistant"
             buttonLink="/ai-insights"
           />
-        </div>
+        </div> */}
       </div>
 
-      <div className="mt-8 p-6 bg-white border rounded">
-        <h1 className="text-xl font-bold mb-2">Set Location</h1>
+      {/* <div className="mt-8 p-6 bg-white border rounded">
+        <h1 className="text-xl font-bold mb-2">Set Location</h1> */}
         <LocationSelector />
-        {location && (
-          <div className="mt-4 p-3 border rounded">
-            <p><strong>Latitude:</strong> {location.lat}</p>
-            <p><strong>Longitude:</strong> {location.lng}</p>
-            <p><strong>Address:</strong> {location.address}</p>
-          </div>
-        )}
-      </div>
+        
+      {/* </div> */}
     </div>
   );
 };

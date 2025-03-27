@@ -39,10 +39,10 @@ export default function CropRecommendation() {
 
     async function getEnvironmentalData(lat: number, lng: number) {
         let soilData = {
-            "N": 100,
-            "P": 50,
-            "K": 150,
-            "pH": 6.5
+            "nitrogen": 100,
+            "phosphorus": 42,
+            "potassium": 43,
+            "ph": 6.5
         }
 
         if (typeof window !== "undefined") {
@@ -58,19 +58,21 @@ export default function CropRecommendation() {
                 console.warn("No soilData found in localStorage.");
             }
         }
-
+        console.log("soilData -> ", soilData);
+        
         const [weatherRes] = await Promise.all([
             fetch(`/api/weather-data?lat=${lat}&lng=${lng}`).then(res => res.json())
         ])
-        const weatherData = weatherRes.data.averagedWeather;
-
+        const weatherData = weatherRes.data.weatherData.averagedWeather;
+        console.log(weatherRes);
+        
         const soilRes = {
-            "N": soilData.N,
-            "P": 50,
-            "K": 150,
-            "pH": soilData.pH
+            "nitrogen": soilData.nitrogen,
+            "phosphorus": 42,
+            "potassium": 43,
+            "ph": soilData.ph
         }
-
+        console.log("soilRes -> ", soilRes);
         return { ...soilRes, ...weatherData };
     }
 
@@ -82,16 +84,19 @@ export default function CropRecommendation() {
     
         try {
             const data = await getEnvironmentalData(location!.lat, location!.lng);
+            console.log(data);
+            
             const inputArray = [[
-                data.N, 
-                data.P, 
-                data.K, 
+                data.nitrogen, 
+                data.potassium, 
+                data.potassium, 
                 data.temperature, 
                 data.humidity, 
-                data.pH, 
+                data.ph, 
                 data.rainfall
             ]];
-    
+            console.log("input array-> ", inputArray);
+            
             const response = await fetch("/api/crop-prediction", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },

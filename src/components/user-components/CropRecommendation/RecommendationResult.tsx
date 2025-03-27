@@ -121,21 +121,21 @@ export default function RecommendationResult({
                                         icon: Leaf, 
                                         color: 'green', 
                                         title: 'Nitrogen', 
-                                        value: data.N, 
+                                        value: data.nitrogen.toFixed(2), 
                                         type: 'N' 
                                     },
                                     { 
                                         icon: Leaf, 
                                         color: 'purple', 
                                         title: 'Phosphorus', 
-                                        value: data.P, 
+                                        value: data.phosphorus, 
                                         type: 'P' 
                                     },
                                     { 
                                         icon: Leaf, 
                                         color: 'blue', 
                                         title: 'Potassium', 
-                                        value: data.K, 
+                                        value: data.potassium, 
                                         type: 'K' 
                                     }
                                 ].map(({ icon: Icon, color, title, value, type }) => (
@@ -150,9 +150,9 @@ export default function RecommendationResult({
                                             <span className="font-medium text-slate-200">{title}</span>
                                         </div>
                                         <div className="flex justify-between items-center">
-                                            <span className="text-2xl font-bold text-slate-200">{value} ppm</span>
+                                            <span className="text-lg font-bold text-slate-200">{value} ppm</span>
                                             <span 
-                                                className={`${getNutrientColor(getNutrientLevel(value, type))} font-medium`}
+                                                className={`${getNutrientColor(getNutrientLevel(value, type))} text-sm font-medium`}
                                             >
                                                 {getNutrientLevel(value, type)}
                                             </span>
@@ -165,28 +165,28 @@ export default function RecommendationResult({
                                         icon: Sprout, 
                                         color: 'yellow', 
                                         title: 'Soil pH', 
-                                        value: data.pH,
-                                        note: data.pH < 6 ? '(Acidic)' : data.pH > 7 ? '(Alkaline)' : '(Neutral)' 
+                                        value: data.ph.toFixed(2),
+                                        note: data.ph < 6 ? '(Acidic)' : data.ph > 7 ? '(Alkaline)' : '(Neutral)' 
                                     },
                                     { 
                                         icon: Thermometer, 
                                         color: 'red', 
                                         title: 'Temperature', 
-                                        value: data.Temperature,
+                                        value: data.temperature,
                                         unit: '°C' 
                                     },
                                     { 
                                         icon: Droplets, 
                                         color: 'blue', 
                                         title: 'Humidity', 
-                                        value: data.Humidity,
+                                        value: data.humidity,
                                         unit: '%' 
                                     },
                                     { 
                                         icon: Cloud, 
                                         color: 'indigo', 
                                         title: 'Rainfall', 
-                                        value: data.Rainfall,
+                                        value: data.rainfall,
                                         unit: 'mm' 
                                     }
                                 ].map(({ icon: Icon, color, title, value, unit, note }) => (
@@ -200,7 +200,7 @@ export default function RecommendationResult({
                                             </div>
                                             <span className="font-medium text-slate-200">{title}</span>
                                         </div>
-                                        <div className="text-2xl font-bold text-slate-200">
+                                        <div className="text-lg font-bold text-slate-200">
                                             {value}{unit} {note || ''}
                                         </div>
                                     </div>

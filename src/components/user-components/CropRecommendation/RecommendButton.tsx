@@ -23,7 +23,7 @@ export default function RecommendButton({
             transition={{ duration: 0.5, delay: 0.2 }}
             className="md:col-span-4"
         >
-            <Card className="bg-slate-800 border-slate-700 shadow-lg hover:border-blue-500 transition-all h-full">
+            <Card className="bg-slate-800 border-slate-700 shadow-lg hover:border-blue-500 transition-all h-fit">
                 <CardHeader>
                     <CardTitle className="text-blue-100 flex items-center">
                         <Leaf className="mr-2 h-5 w-5 text-teal-400" />

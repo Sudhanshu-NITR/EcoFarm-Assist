@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Card from "@/components/Card";
-import { Leaf } from 'lucide-react';
+import { Leaf, LucideIcon } from 'lucide-react';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import { LatestAdvice } from '@/types/LatestAdvice';
@@ -54,7 +54,7 @@ function CropAdvice() {
     return (
         <>
             <Card
-                icon={Leaf}
+                Icon={Leaf as LucideIcon}
                 title="Latest Crop Advice"
                 description={`Recommended Crop: ${latestAdvice?.crop} ${
                     latestAdvice?.crop !== "None" ? labelMap[latestAdvice?.crop as keyof typeof labelMap] : ""

@@ -1,11 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import ee from '@google/earthengine';
 
-const credentials = JSON.parse(process.env.GEE_SERVICE_ACCOUNT_KEY || '{}');
+const encodedKey = process.env.GOOGLE_APPLICATION_CREDENTIALS_BASE64;
+if (!encodedKey) throw new Error("Missing service key");
 
-if (!credentials.private_key) {
-    console.error('GEE_SERVICE_ACCOUNT_KEY is missing or invalid.');
-}
+const credentials = JSON.parse(Buffer.from(encodedKey, "base64").toString("utf-8"));
 
 let isInitialized = false;
 const initializeEarthEngine = async () => {

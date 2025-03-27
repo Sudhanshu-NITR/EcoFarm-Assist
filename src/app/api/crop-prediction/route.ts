@@ -5,11 +5,12 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import dbConnect from "@/lib/dbConnect";
 import mongoose from "mongoose";
 import UserModel from "@/model/Users.model";
+import getAccessToken from "@/utils/google-access-token";
+
 
 const PROJECT_ID = process.env.GCP_PROJECT_ID!;
 const REGION = process.env.GCP_REGION!;
 const ENDPOINT_ID = process.env.VERTEX_ENDPOINT_ID_CROP_REC!;
-const ACCESS_TOKEN = process.env.GCP_ACCESS_TOKEN_CROP_REC!;
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY!;
 
 const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
@@ -36,6 +37,7 @@ export async function POST(req: NextRequest) {
     try {
         const { instances, user } = await req.json();
         const userId = new mongoose.Types.ObjectId(user);
+        const ACCESS_TOKEN = await getAccessToken();
 
         if (!instances || !Array.isArray(instances) || instances.length === 0) {
             return NextResponse.json(
@@ -43,6 +45,13 @@ export async function POST(req: NextRequest) {
                 { status: 400 }
             );
         }
+        if (!ACCESS_TOKEN) {
+            return NextResponse.json(
+                new ApiResponse(400, "Could not fetch ACCESS_TOKEN"),
+                { status: 400 }
+            );
+        }
+        console.log(instances);
         
         const vertexAiUrl = `https://${REGION}-aiplatform.googleapis.com/v1/projects/${PROJECT_ID}/locations/${REGION}/endpoints/${ENDPOINT_ID}:predict`;
         
@@ -53,7 +62,7 @@ export async function POST(req: NextRequest) {
             },
         });
     
-        const predictedLabel = vertexResponse.data.predictions?.[0] ?? null;
+        const predictedLabel = Number(vertexResponse.data.predictions?.[0] ?? null);
 
         if (predictedLabel === null || !(predictedLabel in labelMap)) {
             return NextResponse.json(
@@ -73,7 +82,7 @@ export async function POST(req: NextRequest) {
             - **Potassium (K):** ${instances[0][2]}
             - **Soil pH:** ${instances[0][3]}
             - **Temperature:** ${instances[0][4]}°C
-            - **Humidity:** ${instances[0][5].humidity}%
+            - **Humidity:** ${instances[0][5]}%
             - **Rainfall:** ${instances[0][6]} mm  
 
             ### **ML Model Prediction:**  

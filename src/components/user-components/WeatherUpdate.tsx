@@ -51,7 +51,7 @@ function WeatherUpdate() {
   if (!weatherData?.currentWeather || !isLoaded) {
     return (
       <Card
-        icon={Cloud}
+        Icon={Cloud}
         title="Weather Update"
         description="Loading..."
         content={`Temperature: Loading... \nHumidity: Loading... \nWind Speed: Loading...`}
@@ -69,7 +69,7 @@ function WeatherUpdate() {
 
   return (
     <Card
-      icon={(weatherIcons[icon as string] || Cloud) as LucideIcon}
+      Icon={(weatherIcons[icon as string] || Cloud) as LucideIcon}
       title="Weather Update"
       description={description as string}
       content={`Temperature: ${temperature}°C\nHumidity: ${humidity}%\nWind Speed: ${windSpeed} m/s \nRainfall: ${rainfall} mm`}
