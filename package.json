@@ -23,6 +23,7 @@
     "@radix-ui/react-select": "^2.1.6",
     "@radix-ui/react-slot": "^1.1.2",
     "@react-email/components": "^0.0.13",
+    "@types/google.maps": "^3.58.1",
     "@types/react-scroll": "^1.8.10",
     "axios": "^1.8.3",
     "bcryptjs": "^3.0.2",

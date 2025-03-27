@@ -19,70 +19,66 @@ export default function LocationSelector() {
   const markerRef = useRef<any>(null);
 
   useEffect(() => {
-    const loadGoogleMaps = async () => {
-      if (!window.google) {
-        const script = document.createElement("script");
-        script.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&libraries=places`;
-        script.async = true;
-        script.onload = initializeMap;
-        document.body.appendChild(script);
-      } else {
+    // Wait until Google Maps is loaded from `layout.tsx`
+    const checkGoogleMaps = setInterval(() => {
+      if (window.google && window.google.maps) {
+        clearInterval(checkGoogleMaps);
         initializeMap();
       }
-    };
+    }, 500);
 
-    const initializeMap = () => {
-      if (!mapRef.current || !autoCompleteRef.current) return;
-
-      const map = new window.google.maps.Map(mapRef.current, {
-        center: { lat: 20.5937, lng: 78.9629 }, // Default to India
-        zoom: 5,
-      });
-
-      const marker = new window.google.maps.Marker({
-        map,
-        draggable: true,
-      });
-
-      markerRef.current = marker;
-
-      map.addListener("click", (event: any) => {
-        const { lat, lng } = event.latLng.toJSON();
-        marker.setPosition(event.latLng);
-        fetchAddress(lat, lng);
-      });
-
-      marker.addListener("dragend", () => {
-        const { lat, lng } = marker.getPosition().toJSON();
-        fetchAddress(lat, lng);
-      });
-
-      const autocomplete = new window.google.maps.places.Autocomplete(
-        autoCompleteRef.current
-      );
-
-      autocomplete.addListener("place_changed", () => {
-        const place = autocomplete.getPlace();
-        if (!place.geometry) return;
-
-        const lat = place.geometry.location.lat();
-        const lng = place.geometry.location.lng();
-        map.setCenter({ lat, lng });
-        marker.setPosition({ lat, lng });
-        setAddress(place.formatted_address || "");
-
-        setLocation({
-          lat,
-          lng,
-          address: place.formatted_address || "",
-        });
-      });
-    };
-
-    loadGoogleMaps();
+    return () => clearInterval(checkGoogleMaps);
   }, []);
 
-  const lastFetchedLocation = { lat: 0, lng: 0 }; // Stores the last fetched location
+  const initializeMap = () => {
+    if (!mapRef.current || !autoCompleteRef.current) return;
+
+    const map = new window.google.maps.Map(mapRef.current, {
+      center: { lat: 20.5937, lng: 78.9629 }, // Default to India
+      zoom: 5,
+    });
+
+    const marker = new window.google.maps.Marker({
+      map,
+      draggable: true,
+    });
+
+    markerRef.current = marker;
+
+    map.addListener("click", (event: any) => {
+      const { lat, lng } = event.latLng.toJSON();
+      marker.setPosition(event.latLng);
+      fetchAddress(lat, lng);
+    });
+
+    marker.addListener("dragend", () => {
+      const { lat, lng } = marker.getPosition().toJSON();
+      fetchAddress(lat, lng);
+    });
+
+    const autocomplete = new window.google.maps.places.Autocomplete(
+      autoCompleteRef.current
+    );
+
+    autocomplete.addListener("place_changed", () => {
+      const place = autocomplete.getPlace();
+      if (!place.geometry) return;
+
+      const lat = place.geometry.location.lat();
+      const lng = place.geometry.location.lng();
+      map.setCenter({ lat, lng });
+      marker.setPosition({ lat, lng });
+      setAddress(place.formatted_address || "");
+
+      setLocation({
+        lat,
+        lng,
+        address: place.formatted_address || "",
+      });
+    });
+  };
+
+  const lastFetchedLocation = { lat: 0, lng: 0 };
 
   const fetchAddress = async (lat: number, lng: number) => {
     if (lastFetchedLocation.lat === lat && lastFetchedLocation.lng === lng) {
@@ -93,9 +89,8 @@ export default function LocationSelector() {
     lastFetchedLocation.lat = lat;
     lastFetchedLocation.lng = lng;
 
-    const tempAddress = "Fetching address...";
-    setAddress(tempAddress);
-    setLocation({ lat, lng, address: tempAddress });
+    setAddress("Fetching address...");
+    setLocation({ lat, lng, address: "Fetching address..." });
 
     try {
       const response = await axios.get(
@@ -121,22 +116,6 @@ export default function LocationSelector() {
       setLocation({ lat, lng, address: "Error fetching address" });
     }
   };
-
-  // const fetchAddress = async (lat: number, lng: number) => {
-  //   if (lastFetchedLocation?.lat === lat && lastFetchedLocation?.lng === lng) {
-  //     console.log("Skipping state update: Location hasn't changed.");
-  //     return;
-  //   }
-  
-  //   const tempAddress = `Lat: ${lat?.toFixed(4)}, Lng: ${lng?.toFixed(4)}`;
-  
-  //   setAddress(tempAddress);
-  //   setLocation({ lat, lng, address: tempAddress });
-  
-  //   console.log("Updated Location:", { lat, lng, address: tempAddress });
-  // };
-  
-
 
   return (
     <>
