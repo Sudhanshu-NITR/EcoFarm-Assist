@@ -23,9 +23,38 @@ interface FertilizerRecommendButtonProps {
 }
 
 const CROP_OPTIONS = [
-    'Rice', 'Wheat', 'Maize', 'Sugarcane', 'Cotton', 
-    'Pulses', 'Soybean', 'Groundnut', 'Potato', 'Tomato'
-];
+    "rice",
+    "Moth Beans",
+    "pomegranate",
+    "papaya",
+    "orange",
+    "muskmelon",
+    "mango",
+    "apple",
+    "grapes",
+    "banana",
+    "Chickpea",
+    "Pigeon Peas",
+    "Adzuki Beans",
+    "Black gram",
+    "Coconut",
+    "Kidney Beans",
+    "wheat",
+    "Tobacco",
+    "Sugarcane",
+    "Rubber",
+    "Peas",
+    "Ground Nut",
+    "Cotton",
+    "Coffee",
+    "Jute",
+    "Lentil",
+    "maize",
+    "millet",
+    "Tea",
+    "Mung Bean",
+    "watermelon"
+];  
 
 const SOIL_TYPES = [
     'Loamy Soil', 

@@ -3,13 +3,11 @@ import { ApiResponse } from "@/types/ApiResponse";
 import axios from "axios";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import dbConnect from "@/lib/dbConnect";
-import mongoose from "mongoose";
-import UserModel from "@/model/Users.model";
+import getAccessToken from "@/utils/google-access-token";
 
 const PROJECT_ID = process.env.GCP_PROJECT_ID!;
 const REGION = process.env.GCP_REGION!;
-const ENDPOINT_ID = process.env.VERTEX_ENDPOINT_ID_CROP_REC!;
-const ACCESS_TOKEN = process.env.GCP_ACCESS_TOKEN_CROP_REC!;
+const ENDPOINT_ID = process.env.VERTEX_ENDPOINT_ID_FER_REC!;
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY!;
 
 const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
@@ -23,26 +21,15 @@ const generationConfig = {
     responseMimeType: "text/plain",
 };
 
-const fertilizerLabelMap: { [key: number]: string } = {
-    0: "compost",
-    1: "balanced npk fertilizer",
-    2: "water retaining fertilizer",
-    3: "organic fertilizer",
-    4: "gypsum",
-    5: "lime",
-    6: "dap",
-    7: "urea",
-    8: "muriate of potash",
-    9: "general purpose fertilizer"
-};
-
 export async function POST(req: NextRequest) {
     dbConnect();
     try {
-        const { instances, user } = await req.json();
-        const userId = new mongoose.Types.ObjectId(user);
-
-        if (!instances || !Array.isArray(instances) || instances.length === 0) {
+        const { instances } = await req.json();
+        // const userId = new mongoose.Types.ObjectId(user);
+        const ACCESS_TOKEN = await getAccessToken();
+        console.log(instances);
+        
+        if (!instances) {
             return NextResponse.json(
                 new ApiResponse(400, "Invalid input: 'instances' is required"),
                 { status: 400 }
@@ -51,84 +38,80 @@ export async function POST(req: NextRequest) {
         
         const vertexAiUrl = `https://${REGION}-aiplatform.googleapis.com/v1/projects/${PROJECT_ID}/locations/${REGION}/endpoints/${ENDPOINT_ID}:predict`;
         
-        const vertexResponse = await axios.post(vertexAiUrl, { instances }, {
+        const vertexResponse = await axios.post(vertexAiUrl, instances, {
             headers: {
                 "Authorization": `Bearer ${ACCESS_TOKEN}`,
                 "Content-Type": "application/json",
             },
         });
     
-        const predictedLabel = vertexResponse.data.predictions?.[0] ?? null;
-
-        if (predictedLabel === null || !(predictedLabel in fertilizerLabelMap)) {
+        const predictedFertilizer = vertexResponse.data.predictions?.fertilizer_name ?? null;
+        console.log(predictedFertilizer);
+        
+        if (predictedFertilizer === null) {
             return NextResponse.json(
-                new ApiResponse(500, "Prediction error: No valid crop found"),
+                new ApiResponse(500, "Prediction error: No valid fertilizer found"),
                 { status: 500 }
             );
         }
-
-        const cropName = fertilizerLabelMap[predictedLabel];
         
         const userMessage = `
-            You are an expert agricultural advisor. Given the soil and climate conditions, justify why a specific crop is recommended.
+            You are an expert agricultural advisor. Given the soil nutrient levels and crop requirements, justify why a specific fertilizer is recommended.
 
-            ### **Input Conditions:**  
-            - **Nitrogen (N):** ${instances[0][0]}
-            - **Phosphorus (P):** ${instances[0][1]}
-            - **Potassium (K):** ${instances[0][2]}
-            - **Soil pH:** ${instances[0][3]}
-            - **Temperature:** ${instances[0][4]}°C
-            - **Humidity:** ${instances[0][5].humidity}%
-            - **Rainfall:** ${instances[0][6]} mm  
+            ### Input Conditions:  
+            - Nitrogen (N): ${instances.Nitrogen}  
+            - Phosphorus (P): ${instances.Phosphorus}  
+            - Potassium (K): ${instances.Potassium} 
+            - Soil Moisture : ${instances.Moisture}  
+            - Carbon (C): ${instances.Moisture}  
+            - Crop Type: ${instances.Crop}  
+            - Soil Type: ${instances.Soil}  
+            - Temperature (C): ${instances.Temperature}  
+            - Rainfall (mm): ${instances.Rainfall}  
 
-            ### **ML Model Prediction:**  
-            - **Recommended Crop:** ${cropName}  
+            ### ML Model Prediction:  
+            - Recommended Fertilizer: ${predictedFertilizer}  
 
-            ### **Task:**  
-            Provide a short, science-backed explanation (under **50 words**) on why **${cropName}** is the best crop for these conditions. Keep it concise and easy to understand for farmers.
+            ### Task:  
+            Provide a short, science-backed explanation (under 50 words) on why **${predictedFertilizer}** is the best choice for **${instances.Crop}** under these soil & weather conditions. Keep it concise and easy to understand for farmers.
         `;
         
-        const chatSession = model.startChat({ generationConfig, history: [] });
-        const resultStream = await chatSession.sendMessageStream(userMessage);
+        // const chatSession = model.startChat({ generationConfig, history: [] });
+        // const resultStream = await chatSession.sendMessageStream(userMessage);
 
-        const stream = new ReadableStream({
-            async start(controller) {
-                controller.enqueue(new TextEncoder().encode(`{"fertilizer": "${cropName}", "explanation": "`));
+        // const stream = new ReadableStream({
+        //     async start(controller) {
+        //         controller.enqueue(new TextEncoder().encode(`{"fertilizer": "${predictedFertilizer}", "explanation": "`));
         
-                let details = "";
+        //         let details = "";
         
-                for await (const chunk of resultStream.stream) {
-                    const text = chunk.text();
-                    details += text; 
-                    controller.enqueue(new TextEncoder().encode(text));
-                }
+        //         for await (const chunk of resultStream.stream) {
+        //             const text = chunk.text();
+        //             details += text; 
+        //             controller.enqueue(new TextEncoder().encode(text));
+        //         }
         
-                controller.enqueue(new TextEncoder().encode(`"}`));
-                controller.close();
-        
-                try {
-                    const user = await UserModel.findByIdAndUpdate(
-                        userId,
-                        {
-                            $set: {
-                                "latestAdvice.crop": cropName,
-                                "latestAdvice.details": details.trim()
-                            }
-                        },
-                        { new: true }
-                    );
-                    console.log("Database updated successfully. ", user);
-                } catch (error) {
-                    console.error("Error updating the database:", error);
-                }
-            },
-        });
+        //         controller.enqueue(new TextEncoder().encode(`"}`));
+        //         controller.close();
+        //     },
+        // });
+
+        const stream = {
+            "fertilizer": predictedFertilizer, 
+            "explanation": "some explanation text"
+        }
         
         
-        return new Response(stream, {
+        // return new Response(stream, {
+        //     headers: {
+        //         "Content-Type": "application/json; charset=utf-8",
+        //         "Transfer-Encoding": "chunked",
+        //     },
+        // });
+
+        return new Response(JSON.stringify(stream), {
             headers: {
-                "Content-Type": "application/json; charset=utf-8",
-                "Transfer-Encoding": "chunked",
+                "Content-Type": "application/json",
             },
         });
 

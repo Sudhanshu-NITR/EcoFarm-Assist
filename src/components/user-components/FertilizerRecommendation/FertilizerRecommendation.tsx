@@ -5,9 +5,10 @@ import { Leaf } from 'lucide-react';
 import { Card } from "@/components/ui/card";
 import { toast } from 'sonner';
 import { useSession } from 'next-auth/react';
-
 import RecommendButton from '@/components/user-components/FertilizerRecommendation/RecommendButton';
 import RecommendationResult from '@/components/user-components/FertilizerRecommendation/RecommendationResult';
+import { useLocation } from '@/context/LocationContext';
+
 
 export default function FertilizerRecommendation() {
     const [loading, setLoading] = useState(false);
@@ -15,10 +16,10 @@ export default function FertilizerRecommendation() {
     const [soilType, setSoilType] = useState<string>("");
     const [fertilizer, setFertilizer] = useState<string>("");
     const [explanation, setExplanation] = useState<string>("");
-    const [recommendationDetails, setRecommendationDetails] = useState<any>(null);
     const [animationProgress, setAnimationProgress] = useState<number>(0);
-
+    
     const {data: session} = useSession();
+    const { location } = useLocation();
 
     useEffect(() => {
         if (loading) {
@@ -37,19 +38,77 @@ export default function FertilizerRecommendation() {
         }
     }, [loading]);
 
+    async function getEnvironmentalData(lat: number, lng: number) {
+        let soilData = {
+            "nitrogen": 66.70,
+            "phosphorus": 76.96,
+            "potassium": 96.42,
+            "soc": 0.496,
+            "soil_moisture": 0.725,
+            "ph": 6.227
+        }
+
+        if (typeof window !== "undefined") {
+            const storedData = localStorage.getItem("soilData");
+            if (storedData) {
+                try {
+                    soilData = JSON.parse(storedData);
+                    console.log(soilData);
+                } catch (error) {
+                    console.error("Error parsing soilData:", error);
+                }
+            } else {
+                console.warn("No soilData found in localStorage.");
+            }
+        }
+        console.log("soilData -> ", soilData);
+        
+        const [weatherRes] = await Promise.all([
+            fetch(`/api/weather-data?lat=${lat}&lng=${lng}`).then(res => res.json())
+        ])
+        const weatherData = weatherRes.data.weatherData.averagedWeather;
+        console.log(weatherRes);
+        
+        const soilRes = {
+            "Nitrogen": soilData.nitrogen,
+            "Phosphorus": 42,
+            "Potassium": 43,
+            "Carbon": soilData.soc,
+            "Moisture": soilData.soil_moisture,
+            "PH": soilData.ph
+        }
+        console.log("soilRes -> ", soilRes);
+        return { 
+            ...soilRes, 
+            Temperature: weatherData.temperature,
+            Rainfall: weatherData.rainfall
+        };
+    }
+
+
     const handleRecommend = async () => {
         setLoading(true);
         setFertilizer("");
         setExplanation("");
-        setRecommendationDetails(null);
     
         try {
-            const response = await fetch("/api/fertilizer-prediction", {
+            const data = await getEnvironmentalData(location!.lat, location!.lng)
+
+            if (!cropName || !soilType) {
+                console.error("Error: Soil Type and Crop Name are required.");
+                toast.error("Please provide Soil Type and Crop Name");
+                return;
+            }
+
+            const response = await fetch("/api/fertilizer-recommendation", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ 
-                    crop: cropName, 
-                    soil_type: soilType,
+                    instances: {
+                        Crop: cropName, 
+                        Soil: soilType,
+                        ...data,
+                    },
                     user: session?.user._id 
                 }),
             });
@@ -64,7 +123,6 @@ export default function FertilizerRecommendation() {
 
             setFertilizer(result.fertilizer);
             setExplanation(result.explanation);
-            setRecommendationDetails(result.details);
         } catch (error) {
             console.error("Recommendation error:", error);
             toast.error("Failed to get fertilizer recommendation.");
@@ -126,7 +184,6 @@ export default function FertilizerRecommendation() {
                                 cropName,
                                 soilType
                             }}
-                            recommendationDetails={recommendationDetails}
                         />
                     </Card>
                 </motion.div>

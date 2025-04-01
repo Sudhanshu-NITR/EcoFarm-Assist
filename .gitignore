@@ -43,6 +43,10 @@ build/Release
 node_modules/
 jspm_packages/
 
+# Ignore Docker-related files
+Dockerfile
+docker-compose.yml
+
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/
 

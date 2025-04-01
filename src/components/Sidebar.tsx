@@ -10,7 +10,7 @@ function Sidebar({activeTab, setActiveTab} : {activeTab: string, setActiveTab: (
         if(storedTab){
             setActiveTab(storedTab);
         }
-    }, []);
+    }, [setActiveTab]);
 
     const handleTabChange = (tab: string) =>{
         setActiveTab(tab);
@@ -20,15 +20,6 @@ function Sidebar({activeTab, setActiveTab} : {activeTab: string, setActiveTab: (
     return (
         <>
             <div className="w-64 bg-slate-800 border-r border-slate-700 h-screen sticky top-0 overflow-y-auto flex flex-col">
-                {/* <div className="p-6 border-b border-slate-700">
-                <div className="flex items-center gap-3">
-                    <div className="h-10 w-10 bg-blue-500 rounded-full flex items-center justify-center">
-                    <Leaf className="h-5 w-5 text-white" />
-                    </div>
-                    <h1 className="text-xl font-bold text-blue-100">EcoFarm Assist</h1>
-                </div>
-                </div> */}
-                
                 <nav className="p-4 space-y-2 flex-1">
                     <Button 
                         variant={activeTab === "dashboard" ? "default" : "ghost"} 
