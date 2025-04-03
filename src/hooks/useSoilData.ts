@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { useLocation } from "@/context/LocationContext";
 import SoilData from "@/types/SoilData";
@@ -10,15 +10,17 @@ export default function useSoilData() {
     const lng = location?.lng;
 
     useEffect(() => {
-        if (typeof window !== "undefined") {  // Ensure it's running in the browser
+        if (typeof window !== "undefined") {
             const storedData = localStorage.getItem("soilData");
             if (storedData) {
                 setSoilData(JSON.parse(storedData));
             }
         }
-    });
+    }, []);
 
-    const refreshSoilData = async () => {
+    const refreshSoilData = useCallback(async () => {
+        if (!lat || !lng) return;
+
         try {
             const { data } = await axios.get("/api/soil-data", { params: { lat, lng } });
             setSoilData(data);
@@ -30,13 +32,11 @@ export default function useSoilData() {
         } catch (error) {
             console.error("Error fetching soil data:", error);
         }
-    };
+    }, [lat, lng]); 
 
     useEffect(() => {
-        if (lat && lng) {
-            refreshSoilData();
-        }
-    }, [lat, lng]);
+        refreshSoilData();
+    }, [refreshSoilData]);
 
     return { soilData, refreshSoilData };
 }

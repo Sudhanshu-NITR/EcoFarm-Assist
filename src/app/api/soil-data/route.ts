@@ -58,14 +58,6 @@ const getSoilData = async (lat: number, lon: number) => {
                     ? phValues.reduce((a, b) => a + b, 0) / phValues.length
                     : 'No data available';
             } else if (key === 'soc') {
-                // soilData[key] = {
-                //     b0: sampled?.['b0'] ?? 'No data',
-                //     b10: sampled?.['b10'] ?? 'No data',
-                //     b30: sampled?.['b30'] ?? 'No data',
-                //     b60: sampled?.['b60'] ?? 'No data',
-                //     b100: sampled?.['b100'] ?? 'No data',
-                //     b200: sampled?.['b200'] ?? 'No data'
-                // };
                 const socValues = [
                     sampled?.['b0'],
                     sampled?.['b10'],

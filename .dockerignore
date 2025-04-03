@@ -10,3 +10,7 @@ yarn-debug.log*
 .env
 .git
 *.swp
+node_modules
+.next
+.env.local
+.git

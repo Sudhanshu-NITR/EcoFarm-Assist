@@ -76,43 +76,18 @@ export async function POST(req: NextRequest) {
             Provide a short, science-backed explanation (under 50 words) on why **${predictedFertilizer}** is the best choice for **${instances.Crop}** under these soil & weather conditions. Keep it concise and easy to understand for farmers.
         `;
         
-        // const chatSession = model.startChat({ generationConfig, history: [] });
-        // const resultStream = await chatSession.sendMessageStream(userMessage);
+        const chatSession = model.startChat({ generationConfig, history: [] });
+        const resultStream = await chatSession.sendMessageStream(userMessage);
 
-        // const stream = new ReadableStream({
-        //     async start(controller) {
-        //         controller.enqueue(new TextEncoder().encode(`{"fertilizer": "${predictedFertilizer}", "explanation": "`));
-        
-        //         let details = "";
-        
-        //         for await (const chunk of resultStream.stream) {
-        //             const text = chunk.text();
-        //             details += text; 
-        //             controller.enqueue(new TextEncoder().encode(text));
-        //         }
-        
-        //         controller.enqueue(new TextEncoder().encode(`"}`));
-        //         controller.close();
-        //     },
-        // });
+        let explanation = "";
 
-        const stream = {
-            "fertilizer": predictedFertilizer, 
-            "explanation": "some explanation text"
+        for await (const chunk of resultStream.stream) {
+            explanation += chunk.text();
         }
-        
-        
-        // return new Response(stream, {
-        //     headers: {
-        //         "Content-Type": "application/json; charset=utf-8",
-        //         "Transfer-Encoding": "chunked",
-        //     },
-        // });
 
-        return new Response(JSON.stringify(stream), {
-            headers: {
-                "Content-Type": "application/json",
-            },
+        return NextResponse.json({
+            fertilizer: predictedFertilizer,
+            explanation: explanation.trim(),
         });
 
     } catch (error: any) {

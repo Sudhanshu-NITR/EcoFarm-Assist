@@ -11,6 +11,12 @@ function Navbar() {
 
   const {data: session} = useSession();
 
+  const handleSignOut = async() =>{
+    console.log("signing out");
+    
+    await signOut();
+  }
+
   return (
     <nav className={`w-full z-50 transition-all duration-300 bg-slate-900/95 backdrop-blur-md shadow-lg`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -51,7 +57,7 @@ function Navbar() {
                   <Button
                     variant="outline"
                     className="border-red-500 text-red-400 hover:bg-red-500 hover:text-white font-bold transition-all cursor-pointer"
-                    onClick={() => signOut()}
+                    onClick={() => handleSignOut()}
                   >
                     Logout
                   </Button>

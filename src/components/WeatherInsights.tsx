@@ -20,8 +20,6 @@ import {
   Gauge,
   Eye,
   LucideIcon,
-  ArrowUp,
-  ArrowDown,
   CalendarDays,
   BarChart,
 } from "lucide-react";
@@ -321,7 +319,7 @@ const WeatherInsights = () => {
         
         <div className="overflow-x-auto">
           <div className="flex gap-3 pb-2">
-            {selectedDayData.hourlyData.map((hourData, index) => {
+            {selectedDayData.hourlyData.map((hourData) => {
               const HourIcon = weatherIcons[hourData.weather[0].icon] || Cloud;
               return (
                 <div 
