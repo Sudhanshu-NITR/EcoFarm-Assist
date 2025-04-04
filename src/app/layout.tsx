@@ -1,20 +1,15 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { GeistSans } from 'geist/font/sans';
+import { GeistMono } from 'geist/font/mono';
 import AuthProvider from "@/context/AuthProvider";
 import "./globals.css";
 import Chatbot from "@/components/chatbot/chatbot";
 import { Toaster } from "@/components/ui/sonner"
 // import GoogleMapsLoader from "@/components/GoogleMapsLoader";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+const geistSans = GeistSans;
+const geistMono = GeistMono;
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: "EcoFarm Assist",

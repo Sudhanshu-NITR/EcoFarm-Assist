@@ -1,5 +1,4 @@
 'use client'
-import { Geist, Geist_Mono } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Sidebar from "@/components/Sidebar";
@@ -11,16 +10,11 @@ import Profile from "@/components/user-components/Profile";
 import PestAndDiseaseDetectionPage from "@/components/user-components/PestAndDiseaseDetection/PestAndDiseaseDetectionPage";
 import WeatherInsights from "@/components/WeatherInsights";
 import FertilizerRecommendation from "@/components/user-components/FertilizerRecommendation/FertilizerRecommendation";
+import { GeistSans } from 'geist/font/sans';
+import { GeistMono } from 'geist/font/mono';
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const geistSans = GeistSans;
+const geistMono = GeistMono;
 
 
 export default function RootLayout({

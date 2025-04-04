@@ -1,18 +1,15 @@
 'use client'
 import React from 'react';
-import { Merriweather } from "next/font/google";
+import "@fontsource/merriweather/300.css";
+import "@fontsource/merriweather/400.css";
+import "@fontsource/merriweather/700.css";
+import "@fontsource/merriweather/900.css";
 import Navbar from '@/components/LandingComponents/Navbar';
 import HeroSection from '@/components/LandingComponents/Hero';
 import StatsSection from '@/components/LandingComponents/Stats';
 import ServicesSection from '@/components/LandingComponents/Services';
 import AboutUsSection from '@/components/LandingComponents/AboutUs';
 import Footer from '@/components/Footer';
-
-const merriweather = Merriweather({
-  subsets: ["latin"],
-  weight: ["300", "400", "700", "900"],
-  style: ["normal", "italic"],
-});
 
 
 
@@ -30,7 +27,7 @@ const EcoFarmLanding: React.FC = () => {
   // }, []);
 
   return (
-    <div className={`${merriweather.className} min-h-screen font-sans text-white overflow-x-hidden`}>
+    <div className="min-h-screen font-[Merriweather] text-white overflow-x-hidden">
 
       <div 
         className="fixed inset-0 w-full h-full bg-cover bg-center bg-no-repeat z-[-1]"
