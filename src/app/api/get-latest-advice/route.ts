@@ -10,7 +10,7 @@ export async function GET(req: Request) {
     try {
         const { searchParams } = new URL(req.url);
         const user_id = searchParams.get("user_id");
-
+        console.log("Client-side log:", process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY);
         if (!user_id || !mongoose.Types.ObjectId.isValid(user_id)) {
             return Response.json(
                 new ApiResponse(400, "Invalid or missing user_id"),
