@@ -6,16 +6,6 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { MapPin, Navigation } from "lucide-react";
 
-// Ensure API key is set in .env.local
-const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
-
-declare global {
-  interface Window {
-    google: any;
-    initMap: () => void;
-  }
-}
-
 export default function LocationSelector() {
   const { setLocation } = useLocation();
   const [address, setAddress] = useState("");
@@ -28,25 +18,23 @@ export default function LocationSelector() {
   const autocompleteInstanceRef = useRef<any>(null);
   const lastFetchedLocationRef = useRef({ lat: 0, lng: 0 });
 
-  // Load Google Maps script
+  // Wait for Google Maps to load
   useEffect(() => {
-    if (typeof window !== "undefined" && !window.google) {
-      if (!GOOGLE_MAPS_API_KEY) {
-        setMapError("Google Maps API key is missing. Please check your environment variables.");
-        return;
+    const interval = setInterval(() => {
+      if (window.google && window.google.maps && window.google.maps.places) {
+        clearInterval(interval);
+        setMapLoaded(true);
       }
+    }, 200);
 
-      window.initMap = () => setMapLoaded(true);
+    setTimeout(() => {
+      clearInterval(interval);
+      if (!window.google || !window.google.maps) {
+        setMapError("Google Maps failed to load.");
+      }
+    }, 10000); // 10 seconds timeout
 
-      const script = document.createElement("script");
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&libraries=places&callback=initMap&v=weekly`;
-      script.async = true;
-      script.defer = true;
-      script.onerror = () => setMapError("Failed to load Google Maps.");
-      document.head.appendChild(script);
-    } else if (typeof window !== "undefined" && window.google) {
-      setMapLoaded(true);
-    }
+    return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
@@ -119,7 +107,6 @@ export default function LocationSelector() {
     } catch (error) {
       setMapError("Error initializing map.");
       console.log(error);
-      
     }
   };
 
