@@ -5,7 +5,7 @@ import AuthProvider from "@/context/AuthProvider";
 import "./globals.css";
 import Chatbot from "@/components/chatbot/chatbot";
 import { Toaster } from "@/components/ui/sonner"
-import GoogleMapsLoader from "@/components/GoogleMapsLoader";
+// import GoogleMapsLoader from "@/components/GoogleMapsLoader";
 
 const geistSans = GeistSans;
 const geistMono = GeistMono;
@@ -23,16 +23,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-      <script
-          src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places,geometry&loading=async`}
-          async
-          defer
-      ></script>
-      </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <AuthProvider>
-          <GoogleMapsLoader />
+          {/* <GoogleMapsLoader /> */}
           {children}
           <Chatbot />
           <Toaster />
