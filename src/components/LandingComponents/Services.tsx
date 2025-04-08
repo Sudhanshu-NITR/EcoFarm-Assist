@@ -5,7 +5,7 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { Card, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRight, faBug, faChartLine, faFlask, faRobot, faSeedling } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRight, faBug, faFlask, faRobot, faSeedling } from '@fortawesome/free-solid-svg-icons';
 import Image from 'next/image';
 
 interface Service {

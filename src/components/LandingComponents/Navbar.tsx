@@ -1,6 +1,7 @@
 'use client'
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { Link as ScrollLink } from 'react-scroll';
 import { motion } from 'framer-motion';
 import { Button } from "@/components/ui/button";
 import { Droplet, Leaf } from "lucide-react";
@@ -40,9 +41,9 @@ const Navbar: React.FC = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="hidden md:flex items-center space-x-8"
           >
-            <a href="/#about" className="text-slate-300 hover:text-blue-400 transition-colors duration-300">About</a>
-            <a href="/#services" className="text-slate-300 hover:text-blue-400 transition-colors duration-300">Services</a>
-            <a href="/#contact" className="text-slate-300 hover:text-blue-400 transition-colors duration-300">Contact</a>
+            <ScrollLink to="/#about" className="text-slate-300 hover:text-blue-400 transition-colors duration-300">About</ScrollLink>
+            <ScrollLink to="/#services" className="text-slate-300 hover:text-blue-400 transition-colors duration-300">Services</ScrollLink>
+            <ScrollLink to="/#contact" className="text-slate-300 hover:text-blue-400 transition-colors duration-300">Contact</ScrollLink>
             <Link href={'/sign-in'}>
               <Button variant="outline" className="border-blue-500 text- text-blue-500 hover:bg-blue-500 hover:text-white transition-all cursor-pointer">Login</Button>
             </Link>

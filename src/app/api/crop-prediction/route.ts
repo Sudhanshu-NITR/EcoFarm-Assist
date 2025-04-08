@@ -111,7 +111,7 @@ export async function POST(req: NextRequest) {
                 controller.close();
         
                 try {
-                    const user = await UserModel.findByIdAndUpdate(
+                    await UserModel.findByIdAndUpdate(
                         userId,
                         {
                             $set: {

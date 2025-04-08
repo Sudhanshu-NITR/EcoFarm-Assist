@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion';
 import { 
-    Sun, Leaf, BarChart3 
+    Sun, Leaf
 } from 'lucide-react';
 
 const cropRemarks = {

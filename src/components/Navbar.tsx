@@ -38,15 +38,9 @@ function Navbar() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="hidden md:flex items-center space-x-8"
           >
-            <ScrollLink to="/#about" smooth={true} duration={500} className="text-slate-300 hover:text-blue-400 transition-colors duration-300 border-b-2 border-transparent hover:border-blue-400 pb-1 cursor-pointer">
-              About
-            </ScrollLink>
-            <ScrollLink to="/#services" smooth={true} duration={500} className="text-slate-300 hover:text-blue-400 transition-colors duration-300 border-b-2 border-transparent hover:border-blue-400 pb-1 cursor-pointer">
-              Services
-            </ScrollLink>
-            <ScrollLink to="/#contact" smooth={true} duration={500} className="text-slate-300 hover:text-blue-400 transition-colors duration-300 border-b-2 border-transparent hover:border-blue-400 pb-1 cursor-pointer">
-              Contact
-            </ScrollLink>
+            <ScrollLink to="/#about" className="text-slate-300 hover:text-blue-400 transition-colors duration-300">About</ScrollLink>
+            <ScrollLink to="/#services" className="text-slate-300 hover:text-blue-400 transition-colors duration-300">Services</ScrollLink>
+            <ScrollLink to="/#contact" className="text-slate-300 hover:text-blue-400 transition-colors duration-300">Contact</ScrollLink>
             {
               session? 
               (

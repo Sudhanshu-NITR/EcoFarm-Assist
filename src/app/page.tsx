@@ -32,7 +32,7 @@ const EcoFarmLanding: React.FC = () => {
   
   async function reloadWebsite() {
       await axios.get(url)
-      .then((response) => {
+      .then(() => {
         console.log("website reloded");
       })
       .catch((error) => {

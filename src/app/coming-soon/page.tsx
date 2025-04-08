@@ -42,7 +42,7 @@ export default function ComingSoon() {
               Coming Soon
             </h1>
             <p className="text-xl md:text-2xl text-slate-700 font-medium mb-8">
-              We're working hard on this new feature for EcoFarm Assist
+              We&apos;re working hard on this new feature for EcoFarm Assist
             </p>
           </motion.div>
           
@@ -66,7 +66,7 @@ export default function ComingSoon() {
                   <div className="h-10 w-10 rounded-full bg-green-100 flex items-center justify-center mr-4">
                     <Mail className="h-5 w-5 text-green-600" />
                   </div>
-                  <p className="text-green-800">Thank you for subscribing! We'll keep you updated on our progress.</p>
+                  <p className="text-green-800">Thank you for subscribing! We&apos;ll keep you updated on our progress.</p>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
