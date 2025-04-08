@@ -10,6 +10,7 @@ import StatsSection from '@/components/LandingComponents/Stats';
 import ServicesSection from '@/components/LandingComponents/Services';
 import AboutUsSection from '@/components/LandingComponents/AboutUs';
 import Footer from '@/components/Footer';
+import axios from 'axios';
 
 
 
@@ -25,6 +26,21 @@ const EcoFarmLanding: React.FC = () => {
   //   window.addEventListener('scroll', handleScroll);
   //   return () => window.removeEventListener('scroll', handleScroll);
   // }, []);
+
+  const url = `https://ecofarm-assist.onrender.com`;
+  const interval = 1000 * 60 * 14;
+  
+  async function reloadWebsite() {
+      await axios.get(url)
+      .then((response) => {
+        console.log("website reloded");
+      })
+      .catch((error) => {
+        console.error(`Error : ${error.message}`);
+      });
+  }
+  
+  setInterval(reloadWebsite, interval);
 
   return (
     <div className="min-h-screen font-[Merriweather] text-white overflow-x-hidden">

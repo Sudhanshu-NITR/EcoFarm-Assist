@@ -121,7 +121,7 @@ export async function POST(req: NextRequest) {
                         },
                         { new: true }
                     );
-                    console.log("Database updated successfully. ", user);
+                    // console.log("Database updated successfully. ", user);
                 } catch (error) {
                     console.error("Error updating the database:", error);
                 }

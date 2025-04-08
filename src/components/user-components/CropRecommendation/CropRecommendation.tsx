@@ -58,13 +58,11 @@ export default function CropRecommendation() {
                 console.warn("No soilData found in localStorage.");
             }
         }
-        console.log("soilData -> ", soilData);
         
         const [weatherRes] = await Promise.all([
             fetch(`/api/weather-data?lat=${lat}&lng=${lng}`).then(res => res.json())
         ])
         const weatherData = weatherRes.data.weatherData.averagedWeather;
-        console.log(weatherRes);
         
         const soilRes = {
             "nitrogen": soilData.nitrogen,
@@ -84,11 +82,10 @@ export default function CropRecommendation() {
     
         try {
             const data = await getEnvironmentalData(location!.lat, location!.lng);
-            console.log(data);
             
             const inputArray = [[
                 data.nitrogen, 
-                data.potassium, 
+                data.phosphorus, 
                 data.potassium, 
                 data.temperature, 
                 data.humidity, 

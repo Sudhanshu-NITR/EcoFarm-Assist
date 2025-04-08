@@ -27,7 +27,7 @@ function SoilUpdate() {
                 description="pH Level: Loading..."
                 content="Loading data..."
                 buttonText="View soil health report"
-                buttonLink="/soil-report"
+                buttonLink="/coming-soon"
                 iconColor="text-blue-400"
             />
         );
@@ -56,7 +56,7 @@ function SoilUpdate() {
             description={`pH Level: ${dataToUse.ph?.toFixed(2)} - ${getPhMessage(dataToUse.ph!)}`}
             content={`Nitrogen Level: ${(dataToUse.nitrogen! / 10).toFixed(2)} mg/kg - ${getNitrogenMessage(dataToUse.nitrogen!)}`}
             buttonText="View soil health report"
-            buttonLink="/soil-report"
+            buttonLink="/coming-soon"
             iconColor="text-blue-400"
         />
     );

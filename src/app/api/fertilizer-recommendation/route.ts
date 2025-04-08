@@ -2,12 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { ApiResponse } from "@/types/ApiResponse";
 import axios from "axios";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import dbConnect from "@/lib/dbConnect";
-import getAccessToken from "@/utils/google-access-token";
 
-const PROJECT_ID = process.env.GCP_PROJECT_ID!;
-const REGION = process.env.GCP_REGION!;
-const ENDPOINT_ID = process.env.VERTEX_ENDPOINT_ID_FER_REC!;
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY!;
 
 const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
@@ -22,11 +17,8 @@ const generationConfig = {
 };
 
 export async function POST(req: NextRequest) {
-    dbConnect();
     try {
         const { instances } = await req.json();
-        // const userId = new mongoose.Types.ObjectId(user);
-        const ACCESS_TOKEN = await getAccessToken();
         console.log(instances);
         
         if (!instances) {
@@ -36,17 +28,15 @@ export async function POST(req: NextRequest) {
             );
         }
         
-        const vertexAiUrl = `https://${REGION}-aiplatform.googleapis.com/v1/projects/${PROJECT_ID}/locations/${REGION}/endpoints/${ENDPOINT_ID}:predict`;
+        const apiURL = `https://fertilizer-prediction-app.onrender.com/predict`;
         
-        const vertexResponse = await axios.post(vertexAiUrl, instances, {
+        const apiResponse = await axios.post(apiURL, instances, {
             headers: {
-                "Authorization": `Bearer ${ACCESS_TOKEN}`,
                 "Content-Type": "application/json",
             },
         });
     
-        const predictedFertilizer = vertexResponse.data.predictions?.fertilizer_name ?? null;
-        console.log(predictedFertilizer);
+        const predictedFertilizer = apiResponse.data.predicted_fertilizer ?? null;
         
         if (predictedFertilizer === null) {
             return NextResponse.json(
@@ -63,7 +53,7 @@ export async function POST(req: NextRequest) {
             - Phosphorus (P): ${instances.Phosphorus}  
             - Potassium (K): ${instances.Potassium} 
             - Soil Moisture : ${instances.Moisture}  
-            - Carbon (C): ${instances.Moisture}  
+            - Carbon (C): ${instances.Carbon}  
             - Crop Type: ${instances.Crop}  
             - Soil Type: ${instances.Soil}  
             - Temperature (C): ${instances.Temperature}  

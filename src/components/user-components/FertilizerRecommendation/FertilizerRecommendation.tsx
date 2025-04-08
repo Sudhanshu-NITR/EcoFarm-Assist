@@ -61,23 +61,20 @@ export default function FertilizerRecommendation() {
                 console.warn("No soilData found in localStorage.");
             }
         }
-        console.log("soilData -> ", soilData);
         
         const [weatherRes] = await Promise.all([
             fetch(`/api/weather-data?lat=${lat}&lng=${lng}`).then(res => res.json())
         ])
         const weatherData = weatherRes.data.weatherData.averagedWeather;
-        console.log(weatherRes);
         
         const soilRes = {
             "Nitrogen": soilData.nitrogen,
-            "Phosphorus": 42,
+            "Phosphorous": 42,
             "Potassium": 43,
             "Carbon": soilData.soc,
             "Moisture": soilData.soil_moisture,
             "PH": soilData.ph
         }
-        console.log("soilRes -> ", soilRes);
         return { 
             ...soilRes, 
             Temperature: weatherData.temperature,

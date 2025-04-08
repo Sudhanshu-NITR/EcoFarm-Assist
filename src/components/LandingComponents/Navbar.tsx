@@ -40,9 +40,9 @@ const Navbar: React.FC = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="hidden md:flex items-center space-x-8"
           >
-            <a href="#" className="text-slate-300 hover:text-blue-400 transition-colors duration-300">About</a>
-            <a href="#services" className="text-slate-300 hover:text-blue-400 transition-colors duration-300">Services</a>
-            <a href="#" className="text-slate-300 hover:text-blue-400 transition-colors duration-300">Contact</a>
+            <a href="/#about" className="text-slate-300 hover:text-blue-400 transition-colors duration-300">About</a>
+            <a href="/#services" className="text-slate-300 hover:text-blue-400 transition-colors duration-300">Services</a>
+            <a href="/#contact" className="text-slate-300 hover:text-blue-400 transition-colors duration-300">Contact</a>
             <Link href={'/sign-in'}>
               <Button variant="outline" className="border-blue-500 text- text-blue-500 hover:bg-blue-500 hover:text-white transition-all cursor-pointer">Login</Button>
             </Link>

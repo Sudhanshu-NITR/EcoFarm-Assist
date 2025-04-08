@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { useLocation } from "@/context/LocationContext";
 import { WeatherData } from "@/types/WeatherData";
@@ -10,28 +10,41 @@ export default function useWeatherData() {
     const lat = location?.lat;
     const lng = location?.lng;
 
-    const refreshWeatherData = async () => {
-        if (!lat || !lng) {
-            throw new Error("Latitude and Longitude are required for fetching weather data.");
+    // Load from localStorage on first render
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            const stored = localStorage.getItem("weatherData");
+            if (stored) {
+                setWeatherData(JSON.parse(stored));
+            }
         }
+    }, []);
+
+    // Function to refresh from API
+    const refreshWeatherData = useCallback(async () => {
+        if (!lat || !lng) return;
+
         try {
             const { data } = await axios.get("/api/weather-data", {
-                params: { lat, lng }
+                params: { lat, lng },
             });
-            setWeatherData(data.data.weatherData);
-            console.log(data.data.weatherData);
-            
+
+            const result = data.data.weatherData;
+            setWeatherData(result);
+            console.log("useWeatherData ->", result);
+
+            if (typeof window !== "undefined") {
+                localStorage.setItem("weatherData", JSON.stringify(result));
+            }
         } catch (error) {
             console.error("Error fetching weather data:", error);
-            throw error;
-        }
-    };
-
-    useEffect(() => {
-        if (lat && lng) {
-            refreshWeatherData();
         }
     }, [lat, lng]);
 
-    return { weatherData, refreshWeatherData }; 
-};
+    // Fetch data when location changes
+    useEffect(() => {
+        refreshWeatherData();
+    }, [refreshWeatherData]);
+
+    return { weatherData, refreshWeatherData };
+}

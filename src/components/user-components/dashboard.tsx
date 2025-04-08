@@ -48,12 +48,8 @@ const Dashboard = () => {
           />
         </div> */}
       </div>
-
-      {/* <div className="mt-8 p-6 bg-white border rounded">
-        <h1 className="text-xl font-bold mb-2">Set Location</h1> */}
-        <LocationSelector />
-        
-      {/* </div> */}
+      
+      <LocationSelector />
     </div>
   );
 };

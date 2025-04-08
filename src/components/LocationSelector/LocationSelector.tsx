@@ -7,8 +7,8 @@ import { Button } from "@/components/ui/button";
 import { MapPin, Navigation } from "lucide-react";
 
 export default function LocationSelector() {
-  const { setLocation } = useLocation();
-  const [address, setAddress] = useState("");
+  const { location, setLocation } = useLocation();
+  const [address, setAddress] = useState(location?.address || "");
   const [mapLoaded, setMapLoaded] = useState(false);
   const [mapError, setMapError] = useState("");
   const mapRef = useRef<HTMLDivElement>(null);
@@ -18,7 +18,6 @@ export default function LocationSelector() {
   const autocompleteInstanceRef = useRef<any>(null);
   const lastFetchedLocationRef = useRef({ lat: 0, lng: 0 });
 
-  // Wait for Google Maps to load
   useEffect(() => {
     const interval = setInterval(() => {
       if (window.google && window.google.maps && window.google.maps.places) {
@@ -32,7 +31,7 @@ export default function LocationSelector() {
       if (!window.google || !window.google.maps) {
         setMapError("Google Maps failed to load.");
       }
-    }, 10000); // 10 seconds timeout
+    }, 10000);
 
     return () => clearInterval(interval);
   }, []);
@@ -50,9 +49,13 @@ export default function LocationSelector() {
     }
 
     try {
+      const initialLatLng = location
+        ? { lat: location.lat, lng: location.lng }
+        : { lat: 20.5937, lng: 78.9629 };
+
       const map = new window.google.maps.Map(mapRef.current, {
-        center: { lat: 20.5937, lng: 78.9629 },
-        zoom: 5,
+        center: initialLatLng,
+        zoom: location ? 15 : 5,
         mapTypeControl: false,
         streetViewControl: false,
         fullscreenControl: true,
@@ -63,7 +66,7 @@ export default function LocationSelector() {
 
       const marker = new window.google.maps.Marker({
         map,
-        position: map.getCenter(),
+        position: initialLatLng,
         draggable: true,
         animation: window.google.maps.Animation.DROP,
       });
@@ -95,15 +98,23 @@ export default function LocationSelector() {
           if (!place.geometry?.location) return;
 
           const { lat, lng } = place.geometry.location;
-          map.setCenter({ lat: lat(), lng: lng() });
+          const latVal = lat();
+          const lngVal = lng();
+          map.setCenter({ lat: latVal, lng: lngVal });
           map.setZoom(15);
-          marker.setPosition({ lat: lat(), lng: lng() });
+          marker.setPosition({ lat: latVal, lng: lngVal });
 
           const formattedAddress = place.formatted_address || place.name || "Selected Location";
           setAddress(formattedAddress);
-          setLocation({ lat: lat(), lng: lng(), address: formattedAddress });
+          setLocation({ lat: latVal, lng: lngVal, address: formattedAddress });
         });
       }
+
+      // Fetch address again in case it was loaded from storage but not yet shown
+      if (location && !location.address) {
+        fetchAddress(location.lat, location.lng);
+      }
+
     } catch (error) {
       setMapError("Error initializing map.");
       console.log(error);
@@ -195,12 +206,21 @@ export default function LocationSelector() {
           )}
 
           <div className="flex space-x-2">
-            <Button variant="outline" className="text-blue-400 border-blue-400" onClick={getCurrentLocation} disabled={!mapLoaded || !!mapError}>
+            <Button
+              variant="outline"
+              className="text-blue-400 border-blue-400"
+              onClick={getCurrentLocation}
+              disabled={!mapLoaded || !!mapError}
+            >
               <Navigation className="mr-2 h-4 w-4" />
               Use My Location
             </Button>
 
-            <Button variant="default" className="bg-blue-600 hover:bg-blue-700 text-white" disabled={!address || !mapLoaded}>
+            <Button
+              variant="default"
+              className="bg-blue-600 hover:bg-blue-700 text-white"
+              disabled={!address || !mapLoaded}
+            >
               Confirm Location
             </Button>
           </div>

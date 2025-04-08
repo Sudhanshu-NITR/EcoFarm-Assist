@@ -35,7 +35,7 @@ export async function GET(req: NextRequest) {
             (acc: any, entry: any) => {
                 acc.temperature += entry.main.temp;
                 acc.humidity += entry.main.humidity;
-                acc.rainfall += entry.rain?.["3h"] || 0;
+                acc.rainfall += (entry.rain?.["3h"]*3) || 0;
                 acc.windSpeed += entry.wind.speed;
                 return acc;
             },

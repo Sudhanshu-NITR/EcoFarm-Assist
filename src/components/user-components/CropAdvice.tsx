@@ -61,7 +61,7 @@ function CropAdvice() {
                 }`}
                 content={`${latestAdvice?.details}`}
                 buttonText="View detailed analysis"
-                buttonLink="/crop-analysis"
+                buttonLink="/coming-soon"
                 iconColor="text-teal-400"
             />
         </>

@@ -55,8 +55,8 @@ function WeatherUpdate() {
         title="Weather Update"
         description="Loading..."
         content={`Temperature: Loading... \nHumidity: Loading... \nWind Speed: Loading...`}
-        buttonText="See 7-day forecast"
-        buttonLink="/weather-forecast"
+        buttonText="View Weather Report"
+        buttonLink="/coming-soon"
         iconColor="text-blue-400"
       />
     )
@@ -73,8 +73,8 @@ function WeatherUpdate() {
       title="Weather Update"
       description={description as string}
       content={`Temperature: ${temperature}°C\nHumidity: ${humidity}%\nWind Speed: ${windSpeed} m/s \nRainfall: ${rainfall} mm`}
-      buttonText="See 7-day forecast"
-      buttonLink="/weather-forecast"
+      buttonText="View Weather Report"
+      buttonLink="/coming-soon"
     />
   );
 }

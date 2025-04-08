@@ -6,16 +6,13 @@ import { Button } from "@/components/ui/button"
 import { Leaf, Menu } from 'lucide-react'
 import { useSession, signOut } from 'next-auth/react';
 import { Link as ScrollLink } from 'react-scroll';
+import { useRouter } from 'next/navigation';
+
 
 function Navbar() {
 
   const {data: session} = useSession();
-
-  const handleSignOut = async() =>{
-    console.log("signing out");
-    
-    await signOut();
-  }
+  const router = useRouter();
 
   return (
     <nav className={`w-full z-50 transition-all duration-300 bg-slate-900/95 backdrop-blur-md shadow-lg`}>
@@ -57,7 +54,10 @@ function Navbar() {
                   <Button
                     variant="outline"
                     className="border-red-500 text-red-400 hover:bg-red-500 hover:text-white font-bold transition-all cursor-pointer"
-                    onClick={() => handleSignOut()}
+                    onClick={() => {
+                      signOut({ redirect: false });
+                      router.push("/")
+                    }}
                   >
                     Logout
                   </Button>

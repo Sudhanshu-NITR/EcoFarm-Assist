@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { ArrowRight } from "lucide-react";
+import Link from 'next/link';
 
 const HeroSection: React.FC = () => {
   const staggerChildren = {
@@ -54,10 +55,12 @@ const HeroSection: React.FC = () => {
               variants={fadeIn}
               className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4"
             >
-              <Button size="lg" className="bg-blue-400 hover:bg-blue-700 text-white px-8 py-7 rounded-full text-lg">
-                <span>Get Started</span>
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
+              <Link href={'/sign-up'}>
+                <Button size="lg" className="bg-blue-400 hover:bg-blue-700 text-white px-8 py-7 rounded-full text-lg cursor-pointer">
+                  <span>Get Started</span>
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+              </Link>
             </motion.div>
             
             <motion.div 

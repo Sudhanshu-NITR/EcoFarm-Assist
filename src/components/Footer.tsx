@@ -17,7 +17,7 @@ import {
 
 const Footer = () => {
   return (
-    <footer className="relative bg-gradient-to-b from-[#0F3460] to-[#0D1B2A] py-16">
+    <footer id='contact' className="relative bg-gradient-to-b from-[#0F3460] to-[#0D1B2A] py-16">
       <div className="absolute inset-0 bg-[#0D1B2A]/90 bg-opacity-50 z-0"></div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
@@ -130,13 +130,13 @@ const Footer = () => {
                 <div className="h-8 w-8 rounded-full bg-blue-500/10 flex items-center justify-center mr-3">
                   <FontAwesomeIcon icon={faPhone} className="text-blue-400 h-4 w-4" />
                 </div>
-                <span>+1 (555) 123-4567</span>
+                <span>+91 9607704541</span>
               </li>
               <li className="flex items-center">
                 <div className="h-8 w-8 rounded-full bg-blue-500/10 flex items-center justify-center mr-3">
                   <FontAwesomeIcon icon={faMapMarkerAlt} className="text-blue-400 h-4 w-4" />
                 </div>
-                <span>123 Farming Road, AgriTech Valley</span>
+                <span>SD Hall, NIT Rourkela</span>
               </li>
             </ul>
           </div>

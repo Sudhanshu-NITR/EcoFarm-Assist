@@ -4,7 +4,7 @@ import { Droplet, Twitter, Facebook, Linkedin, Instagram, Mail, Phone, MapPin } 
 
 const Footer: React.FC = () => {
   return (
-    <footer className="bg-slate-900 py-16">
+    <footer id="contact" className="bg-slate-900 py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
           <div>
