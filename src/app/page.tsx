@@ -28,7 +28,7 @@ const EcoFarmLanding: React.FC = () => {
   // }, []);
 
   const url = `https://ecofarm-assist.onrender.com`;
-  const interval = 1000 * 60 * 14;
+  const interval = 1000 * 60 * 3;
   
   async function reloadWebsite() {
       await axios.get(url)
