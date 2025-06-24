@@ -20,9 +20,9 @@ function Page() {
   const form = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
-      identifier: '',
-      password: '',
-    }
+      identifier: "sudhanshu.kadam.99@gmail.com",
+      password: "Sudh@1804",
+    },
   })
 
   const onSubmit = async (data: z.infer<typeof signInSchema>)=>{
@@ -85,8 +85,7 @@ function Page() {
                     <FormLabel className="text-slate-200">Email</FormLabel>
                     <FormControl>
                       <Input 
-                        placeholder="Enter your email address" 
-                        defaultValue={"sudhanshu.kadam.99@gmail.com"}
+                        placeholder="Enter your email address"
                         {...field}
                         className="bg-slate-700 border-slate-600 focus:border-blue-400 focus:ring-blue-400 text-slate-200"
                       />
@@ -104,8 +103,7 @@ function Page() {
                       <FormControl>
                         <Input 
                           type='password' 
-                          placeholder="Enter your password" 
-                          defaultValue={"Sudh@1804"}
+                          placeholder="Enter your password"
                           {...field}
                           className="bg-slate-700 border-slate-600 focus:border-blue-400 focus:ring-blue-400 text-slate-200"
                         />

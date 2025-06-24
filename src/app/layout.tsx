@@ -5,7 +5,6 @@ import AuthProvider from "@/context/AuthProvider";
 import "./globals.css";
 import Chatbot from "@/components/chatbot/chatbot";
 import { Toaster } from "@/components/ui/sonner"
-// import GoogleMapsLoader from "@/components/GoogleMapsLoader";
 
 const geistSans = GeistSans;
 const geistMono = GeistMono;
