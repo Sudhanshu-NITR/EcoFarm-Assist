@@ -89,7 +89,7 @@ Eco-Farm Assist is powered by a modern, scalable and modular tech stack:
 
 ## 🚀 Deployment
 
-- **Frontend**: [Render](https://ecofarmassist.onrender.com)
+- **Frontend**: [Render](https://ecofarm-assist.onrender.com/)
 - **Backend**: Same monorepo deployment on Render with serverless architecture
 - **GitHub**: [https://github.com/Sudhanshu-NITR/EcoFarm-Assist](https://github.com/Sudhanshu-NITR/EcoFarm-Assist)
 - **Demo Video**: [YouTube Link](https://youtu.be/5b-l-AnCuZo)
