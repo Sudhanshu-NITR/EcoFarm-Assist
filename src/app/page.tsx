@@ -12,7 +12,7 @@ import AboutUsSection from '@/components/LandingComponents/AboutUs';
 import Footer from '@/components/Footer';
 import axios from 'axios';
 
-const url = `https://ecofarm-assist.onrender.com`; 
+const url = `https://eco-farm-assist.onrender.com`; 
   const interval = 1000 * 60 * 14; 
 
   setInterval(() => {
