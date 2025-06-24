@@ -1,36 +1,195 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🌾 Eco-Farm Assist: Empowering Small & Marginal Farmers with AI
 
-## Getting Started
+**Eco-Farm Assist** is an AI-driven agricultural advisory platform designed to empower India's small and marginal farmers. By combining the power of satellite data, weather APIs, and scalable ML models, it provides personalized and real-time advice on crop planning, fertilizer use, and disease detection.
 
-First, run the development server:
+> 🚜 Bridging the gap between technology and grassroots agriculture through intelligent, location-aware recommendations.
+
+---
+
+## 📌 Why Eco-Farm Assist?
+
+- Traditional advisory systems provide **generic, static advice** that ignores location, seasonality, and soil type.
+- Farmers lack **real-time, personalized insights** to make smart decisions.
+- There is **low adoption of AI and satellite data** in rural agriculture.
+
+**Eco-Farm Assist** solves this by delivering:
+- 📍 Location-specific crop recommendations using **Google Earth Engine**
+- 🌦️ Real-time weather-aware suggestions via **weather APIs**
+- 🧠 Scalable **ML models** for intelligent farming decisions
+
+---
+
+## 🛠️ Tech Stack
+
+Eco-Farm Assist is powered by a modern, scalable and modular tech stack:
+
+### 🌐 Frontend
+- **Next.js 15** – Full-stack React framework for server-side rendering and routing
+- **Tailwind CSS + tailwind-merge + tailwindcss-animate** – Utility-first styling with animation support
+- **Lucide React**, **Font Awesome**, **Geist UI** – Icon & UI libraries for rich visual experience
+- **Framer Motion** – Fluid animations for engaging UX
+- **React Hook Form + Zod + @hookform/resolvers** – Robust form handling and validation
+- **Embla Carousel**, **react-scroll**, **usehooks-ts** – Enhanced UI interactions and hooks
+
+### 🔐 Authentication & Security
+- **NextAuth.js** – Secure user authentication and session management
+- **JWT + bcryptjs** – Token-based authorization and password hashing
+- **dotenv** – Secure environment variable management
+
+### 🌱 Backend & APIs
+- **Google Earth Engine** – Satellite-based geospatial intelligence
+- **Google Generative AI (Gemini)** – Smart query answering via NLP
+- **Vertex AI** – Deployed ML models for crop, fertilizer, and disease prediction
+- **Mongoose + MongoDB** – Scalable NoSQL database
+- **Nodemailer + React Email** – Transactional emails for sign-up and verification
+
+### 🧰 Developer Tools
+- **ESLint + Prettier** – Code linting and formatting
+- **TypeScript** – Type-safe development
+- **Axios** – Promise-based HTTP client for all API communication
+- **PostCSS + Autoprefixer**, **clsx**, **glob** – Utility libraries for modern development
+
+---
+
+## 📡 API Structure
+
+> Location: `src/app/api/`
+
+```
+├───auth
+│   └───[...nextauth]
+├───change-password
+├───chatbot
+├───confirm-password-validation
+├───crop-prediction
+├───disease-prediction
+├───fertilizer-recommendation
+├───geocode
+├───get-latest-advice
+├───password-validation
+├───sign-up
+├───soil-data
+├───verify-code
+├───weather-data
+```
+
+### Key API Endpoints
+
+- `POST /api/sign-up` – Register a new farmer
+- `POST /api/auth/[...nextauth]` – Login and authentication
+- `POST /api/crop-prediction` – Get crop recommendations based on soil & weather
+- `POST /api/fertilizer-recommendation` – AI-based fertilizer suggestions
+- `POST /api/disease-prediction` – Image-based crop disease detection
+- `GET /api/soil-data` – Fetch soil pH, NPK, and moisture using GEE
+- `GET /api/weather-data` – Real-time weather forecast for user location
+- `POST /api/chatbot` – Smart conversational chatbot using Gemini
+- `GET /api/get-latest-advice` – Daily farming tips personalized for user
+
+---
+
+## 🚀 Deployment
+
+- **Frontend**: [Render](https://ecofarmassist.onrender.com)
+- **Backend**: Same monorepo deployment on Render with serverless architecture
+- **GitHub**: [https://github.com/Sudhanshu-NITR/EcoFarm-Assist](https://github.com/Sudhanshu-NITR/EcoFarm-Assist)
+- **Demo Video**: [YouTube Link](https://youtu.be/5b-l-AnCuZo)
+
+---
+
+## 🧪 Getting Started
+
+### 📦 Prerequisites
+- Node.js (v18+)
+- npm or yarn
+- `.env` file with required secrets
+
+### 📂 Installation
+
+```bash
+git clone https://github.com/Sudhanshu-NITR/EcoFarm-Assist.git
+cd eco-farm-assist
+npm install
+```
+
+### 🚀 Running the App
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 🔐 Required `.env` Variables
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```env
+# Database
+MONGODB_URI=your_mongodb_connection_uri
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# Email (Transactional Email via Brevo)
+BREVO_EMAIL=your_email@example.com
+BREVO_SMTP_KEY=your_brevo_smtp_api_key
 
-## Learn More
+# Authentication
+NEXTAUTH_SECRET=your_nextauth_secret
+NEXTAUTH_URL=http://localhost:3000
 
-To learn more about Next.js, take a look at the following resources:
+# Google AI (Gemini + Vertex AI)
+GEMINI_API_KEY=your_google_gemini_api_key
+VERTEX_ENDPOINT_ID_CROP_REC=your_vertex_ai_crop_endpoint_id
+VERTEX_ENDPOINT_ID_FER_REC=your_vertex_ai_fertilizer_endpoint_id
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Google Maps + Weather
+NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=your_google_maps_browser_api_key
+NEXT_PUBLIC_OPENWEATHERMAP_API_KEY=your_openweathermap_api_key
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# Google Cloud & Earth Engine
+GCP_PROJECT_ID=your_gcp_project_id
+GCP_REGION=your_gcp_region
+GOOGLE_APPLICATION_CREDENTIALS_BASE64=base64_encoded_service_account_json
+EARTH_ENGINE_SERVICE_KEY=your_earth_engine_service_key
+```
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📸 Screenshots
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+<!-- Add screenshots of key pages -->
+
+#### Landing Page  
+
+![Landing](./Readme_Images/landing.png)
+
+#### Crop Recommendation
+![CropRec](./Readme_Images/CropRec.png)
+
+#### Disease Detection  
+![Disease](./Readme_Images/Pest&Disease.png)
+
+#### Fertilizer Recommendation   
+![Disease](./Readme_Images/FertilizerRec.png)
+
+#### Weather Insights Page  
+
+![Disease](./Readme_Images/WeatherPage.png)
+
+---
+
+## 🔭 Future Roadmap
+
+- 🌍 Regional language support with dynamic translation
+- 📱 Progressive Web App (PWA) version
+- 🧠 Advanced pest detection model integration
+- 📈 Market price prediction module
+- 📡 IoT sensor integration for real-time field data
+
+---
+
+## 🤝 Team
+
+**Team Name:** Red Bull Coders  
+**Team Lead:** Sudhanshu Kadam  
+**Team Members:**
+- Swaraj Jamkar  
+- Sakshi Bihani
+
+----
+
+> “Farming is not just a profession, it's a responsibility. Eco-Farm Assist is our small step towards making it smarter, easier, and more rewarding.”

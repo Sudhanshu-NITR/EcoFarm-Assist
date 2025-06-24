@@ -86,6 +86,7 @@ function Page() {
                     <FormControl>
                       <Input 
                         placeholder="Enter your email address" 
+                        defaultValue={"sudhanshu.kadam.99@gmail.com"}
                         {...field}
                         className="bg-slate-700 border-slate-600 focus:border-blue-400 focus:ring-blue-400 text-slate-200"
                       />
@@ -104,6 +105,7 @@ function Page() {
                         <Input 
                           type='password' 
                           placeholder="Enter your password" 
+                          defaultValue={"Sudh@1804"}
                           {...field}
                           className="bg-slate-700 border-slate-600 focus:border-blue-400 focus:ring-blue-400 text-slate-200"
                         />

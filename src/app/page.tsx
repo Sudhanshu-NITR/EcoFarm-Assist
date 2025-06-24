@@ -11,36 +11,23 @@ import ServicesSection from '@/components/LandingComponents/Services';
 import AboutUsSection from '@/components/LandingComponents/AboutUs';
 import Footer from '@/components/Footer';
 import axios from 'axios';
+// import axios from 'axios';
 
+const url = `https://ecofarm-assist.onrender.com`; 
+  const interval = 1000 * 60 * 14; 
 
-
-const EcoFarmLanding: React.FC = () => {
-  // const [isScrolled, setIsScrolled] = useState<boolean>(false);
-
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     const scrollPosition = window.scrollY;
-  //     setIsScrolled(scrollPosition > 50);
-  //   };
-
-  //   window.addEventListener('scroll', handleScroll);
-  //   return () => window.removeEventListener('scroll', handleScroll);
-  // }, []);
-
-  const url = `https://ecofarm-assist.onrender.com`;
-  const interval = 1000 * 60 * 3;
-  
-  async function reloadWebsite() {
-      await axios.get(url)
+  setInterval(() => {
+    axios
+      .get(url)
       .then(() => {
-        console.log("website reloded");
+        console.log("Keep-alive ping sent.");
       })
       .catch((error) => {
-        console.error(`Error : ${error.message}`);
+        console.error("Keep-alive error:", error.message);
       });
-  }
-  
-  setInterval(reloadWebsite, interval);
+  }, interval);
+
+const EcoFarmLanding: React.FC = () => {
 
   return (
     <div className="min-h-screen font-[Merriweather] text-white overflow-x-hidden">
