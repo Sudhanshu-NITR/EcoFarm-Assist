@@ -129,7 +129,6 @@ BREVO_SMTP_KEY=your_brevo_smtp_api_key
 
 # Authentication
 NEXTAUTH_SECRET=your_nextauth_secret
-NEXTAUTH_URL=http://localhost:3000
 
 # Google AI (Gemini + Vertex AI)
 GEMINI_API_KEY=your_google_gemini_api_key
@@ -155,7 +154,7 @@ EARTH_ENGINE_SERVICE_KEY=your_earth_engine_service_key
 
 #### Landing Page  
 
-![Landing](./Readme_Images/landing.png)
+![Landing](./Readme_Images/Landing.png)
 
 #### Crop Recommendation
 ![CropRec](./Readme_Images/CropRec.png)
