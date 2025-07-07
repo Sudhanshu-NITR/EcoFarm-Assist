@@ -16,6 +16,8 @@
 - 📍 Location-specific crop recommendations using **Google Earth Engine**
 - 🌦️ Real-time weather-aware suggestions via **weather APIs**
 - 🧠 Scalable **ML models** for intelligent farming decisions
+- Early Detection and Optimal treatment of pests
+- Information about Government Schemes for Farmers
 
 ---
 
@@ -50,7 +52,6 @@ Eco-Farm Assist is powered by a modern, scalable and modular tech stack:
 - **PostCSS + Autoprefixer**, **clsx**, **glob** – Utility libraries for modern development
 
 ---
-
 ## 📡 API Structure
 
 > Location: `src/app/api/`
