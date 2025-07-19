@@ -2,7 +2,7 @@
 
 **Eco-Farm Assist** is an AI-driven agricultural advisory platform designed to empower India's small and marginal farmers. By combining the power of satellite data, weather APIs, and scalable ML models, it provides personalized and real-time advice on crop planning, fertilizer use, and disease detection.
 
-> 🚜 Bridging the gap between technology and grassroots agriculture through intelligent, location-aware recommendations.
+> 🚜 Bridging the gap between technology and grassroot agriculture through intelligent, location-aware recommendations.
 
 ---
 
@@ -17,7 +17,7 @@
 - 🌦️ Real-time weather-aware suggestions via **weather APIs**
 - 🧠 Scalable **ML models** for intelligent farming decisions
 - Early Detection and Optimal treatment of pests
-- Information about Government Schemes for Farmers
+
 
 ---
 
