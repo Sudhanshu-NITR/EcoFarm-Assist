@@ -1,5 +1,7 @@
 import nodemailer from "nodemailer";
 import { ApiResponse } from "@/types/ApiResponse";
+import { render } from '@react-email/render';
+import VerificationEmail from "../../emails/VerificationEmails";
 
 const transporter = nodemailer.createTransport({
   host: "smtp-relay.brevo.com",
@@ -22,8 +24,7 @@ export async function sendVerificationEmail(
       from: 'EcoFarm Assist <sudhanshu.kadam.99@gmail.com>',
       to: email,
       subject: "EcoFarm Assist | Verification Code",
-      html: `<p>Hello ${name},</p>
-             <p>Your verification code is: <strong>${verifyCode}</strong></p>`,
+      html: await render(<VerificationEmail name={name} otp={verifyCode} />),
     });
 
     return { statusCode: 200, success: true, message: "Verification email sent successfully" };
