@@ -1,7 +1,7 @@
 import nodemailer from "nodemailer";
 import { ApiResponse } from "@/types/ApiResponse";
 import { render } from '@react-email/render';
-import VerificationEmail from "../../emails/VerificationEmails";
+import VerificationEmail from "@/emails/VerificationEmails";
 
 const transporter = nodemailer.createTransport({
   host: "smtp-relay.brevo.com",
