@@ -93,6 +93,7 @@ Eco-Farm Assist is powered by a modern, scalable and modular tech stack:
 - **Frontend**: [Render](https://eco-farm-assist.onrender.com)
 - **Backend**: Same monorepo deployment on Render with serverless architecture
 - **GitHub**: [https://github.com/Sudhanshu-NITR/EcoFarm-Assist](https://github.com/Sudhanshu-NITR/EcoFarm-Assist)
+- **ML Repository**: [https://github.com/swaraj123822/EcoFarmAssist-model](https://github.com/swaraj123822/EcoFarmAssist-model)
 - **Demo Video**: [YouTube Link](https://youtu.be/5b-l-AnCuZo)
 
 ---
@@ -187,8 +188,8 @@ EARTH_ENGINE_SERVICE_KEY=your_earth_engine_service_key
 **Team Name:** Red Bull Coders  
 **Team Lead:** Sudhanshu Kadam  
 **Team Members:**
-- Swaraj Jamkar  
-- Sakshi Bihani
+- Swaraj Jamkar [swaraj123822](https://github.com/swaraj123822)
+- Sakshi Bihani [sakshib19](https://github.com/sakshib19)
 
 ----
 
