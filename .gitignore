@@ -34,3 +34,13 @@ out
 # System files
 .DS_Store
 Thumbs.db
+
+# Docker
+*.pid
+*.seed
+*.pid.lock
+.docker/
+
+# Editors
+.vscode/
+.idea/
