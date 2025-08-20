@@ -9,6 +9,8 @@ import { useLocation } from '@/context/LocationContext';
 
 import RecommendButton from '@/components/user-components/CropRecommendation/RecommendButton';
 import RecommendationResult from '@/components/user-components/CropRecommendation/RecommendationResult';
+import { AxiosError } from 'axios';
+import { IApiResponse } from '@/types/ApiResponse';
 
 export default function CropRecommendation() {
     const [loading, setLoading] = useState(false);
@@ -129,8 +131,11 @@ export default function CropRecommendation() {
             setExplanation(parsedResult.explanation);
             setData(data);
         } catch (error) {
-            console.error("Streaming error:", error);
-            toast.error("Failed to get crop recommendation.");
+            const axiosError = error as AxiosError<IApiResponse>;
+            const errorMessage = axiosError.response?.data.message;
+            toast.error("🚫 Failed to get crop recommendation.", {
+                description: errorMessage,
+            })
         } finally {
             setLoading(false);
         }

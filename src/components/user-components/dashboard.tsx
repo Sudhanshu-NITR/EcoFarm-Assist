@@ -22,31 +22,9 @@ const Dashboard = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <CropAdvice />
-          
           <WeatherUpdate />
-
           <SoilUpdate />
         </div>
-
-        {/* <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
-          <Card
-            icon={BarChart3}
-            title="Yield Forecast"
-            description="Projected harvest based on current conditions"
-            content="Yield visualization chart would appear here."
-            buttonText="View forecast"
-            buttonLink="/yield-forecast"
-          />
-
-          <Card
-            icon={MessageCircle}
-            title="Recent AI Insights"
-            description="Custom recommendations from your AI assistant"
-            content="Based on your recent soil samples and weather patterns, consider increasing irrigation by 15% for the next week."
-            buttonText="Ask AI Assistant"
-            buttonLink="/ai-insights"
-          />
-        </div> */}
       </div>
       
       <LocationSelector />

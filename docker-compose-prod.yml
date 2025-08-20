@@ -1,0 +1,10 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    ports:
+      - "8080:3000"
+    env_file:
+      - .env
+    restart: unless-stopped

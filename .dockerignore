@@ -5,7 +5,7 @@
 # Node.js
 node_modules
 npm-debug.log
-yarn-error.log
+yarn.lock
 
 # Python
 __pycache__/
@@ -20,10 +20,6 @@ dist
 build
 coverage
 *.log
-
-# Next.js build
-.next
-out
 
 # Env / secrets
 .env

@@ -35,7 +35,7 @@ function Page() {
       })
 
       if(result?.error){
-        toast.error("Login Failed", {
+        toast.error("🚫 Login Failed", {
             description: result?.error,
           }
         );
@@ -46,7 +46,7 @@ function Page() {
       }
     } catch (error) {
       console.error("Error signing in:", error);
-      toast.error("Login Failed", {
+      toast.error("🚫 Login Failed", {
         description: "An unexpected error occurred",
       });
     } finally {

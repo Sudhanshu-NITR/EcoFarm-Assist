@@ -91,7 +91,7 @@ function Password() {
                 userId: session?.user._id
             });
 
-            toast((response.data.success) ? 'Success' : 'Failure', {
+            toast((response.data.success) ? "🌿 Success" : "🚫 Failure", {
                 description: response.data.message
             }
             );
@@ -101,7 +101,7 @@ function Password() {
             console.error("Error changing password of user, ", error);
             const axiosError = error as AxiosError<IApiResponse>;
             const errorMessage = axiosError.response?.data.message;
-            toast.error('Password Change Failed, Please try again', {
+            toast.error('🚫 Password Change Failed, Please try again', {
                 description: errorMessage,
             })
         }

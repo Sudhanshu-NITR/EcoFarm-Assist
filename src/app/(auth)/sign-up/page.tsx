@@ -71,7 +71,7 @@ function Page() {
     try {
       const response = await axios.post<IApiResponse>('/api/sign-up', data);
       
-      toast((response.data.success)? 'Success':'Failure', {
+      toast((response.data.success)? "🌿 Success" : "🚫 Failure", {
           description: response.data.message
         }
       );
@@ -81,16 +81,14 @@ function Page() {
       }
       else{
         const error = response.data.message;
-        console.error("Error in signup of user, ", error);
-        toast.error('SignUp Failed, Please try again', {
+        toast.error('🚫 SignUp Failed, Please try again', {
           description: error,
         })
       }
     } catch (error) {
-      console.error("Error in signup of user, ", error);
       const axiosError = error as AxiosError<IApiResponse>;
       const errorMessage = axiosError.response?.data.message;
-      toast.error('SignUp Failed, Please try again', {
+      toast.error('🚫 SignUp Failed, Please try again', {
         description: errorMessage,
       })
     }

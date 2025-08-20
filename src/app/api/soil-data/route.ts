@@ -1,23 +1,26 @@
 import { NextRequest, NextResponse } from 'next/server';
 import ee from '@google/earthengine';
 
-const encodedKey = process.env.GOOGLE_APPLICATION_CREDENTIALS_BASE64;
-if (!encodedKey) throw new Error("Missing service key");
-
-const credentials = JSON.parse(Buffer.from(encodedKey, "base64").toString("utf-8"));
-
 let isInitialized = false;
+
 const initializeEarthEngine = async () => {
-    if (!isInitialized) {
-        await new Promise<void>((resolve, reject) => {
-            ee.data.authenticateViaPrivateKey(credentials, () => {
-                ee.initialize(null, null, () => {
-                    isInitialized = true;
-                    resolve();
-                }, reject);
-            });
+    if (isInitialized) return;
+
+    const encodedKey = process.env.GOOGLE_APPLICATION_CREDENTIALS_BASE64;
+    if (!encodedKey) throw new Error("Missing service key");
+
+    const credentials = JSON.parse(
+        Buffer.from(encodedKey, "base64").toString("utf-8")
+    );
+
+    await new Promise<void>((resolve, reject) => {
+        ee.data.authenticateViaPrivateKey(credentials, () => {
+            ee.initialize(null, null, () => {
+                isInitialized = true;
+                resolve();
+            }, reject);
         });
-    }
+    });
 };
 
 const getSoilData = async (lat: number, lon: number) => {

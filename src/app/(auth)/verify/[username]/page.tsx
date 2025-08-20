@@ -76,23 +76,21 @@ function VerifyAccount() {
             
             if(response.data.success){
                 router.replace('/sign-in');
-                toast((response.data.success)? 'Success':'Failure', {
+                toast((response.data.success)? "🌿 Success" : "🚫 Failure", {
                     description: response.data.message,
                 });
             }
             else{
                 const error = response.data.message;
-                console.error("Error in verification of user, ", error);
-                toast.error('Verification Failed, Please try again', {
+                toast.error('🚫 Verification Failed, Please try again', {
                     description: error,
                     className: "text-red-500 bg-white"
                 });
             }
         } catch (error) {
-            console.error("Error in verification of user, ", error);
             const axiosError = error as AxiosError<IApiResponse>;
             const errorMessage = axiosError.response?.data.message;
-            toast.error('Verification Failed, Please SignUp again', {
+            toast.error('🚫 Verification Failed, Please SignUp again', {
                 description: errorMessage,
                 className: "text-red-500 bg-white"
             });

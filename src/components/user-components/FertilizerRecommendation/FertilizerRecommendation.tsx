@@ -8,6 +8,8 @@ import { useSession } from 'next-auth/react';
 import RecommendButton from '@/components/user-components/FertilizerRecommendation/RecommendButton';
 import RecommendationResult from '@/components/user-components/FertilizerRecommendation/RecommendationResult';
 import { useLocation } from '@/context/LocationContext';
+import { AxiosError } from 'axios';
+import { IApiResponse } from '@/types/ApiResponse';
 
 
 export default function FertilizerRecommendation() {
@@ -92,8 +94,7 @@ export default function FertilizerRecommendation() {
             const data = await getEnvironmentalData(location!.lat, location!.lng)
 
             if (!cropName || !soilType) {
-                console.error("Error: Soil Type and Crop Name are required.");
-                toast.error("Please provide Soil Type and Crop Name");
+                toast.error("🚫 Please provide Soil Type and Crop Name");
                 return;
             }
 
@@ -111,8 +112,7 @@ export default function FertilizerRecommendation() {
             });
 
             if (!response.ok) {
-                console.error("Error:", response.status, response.statusText);
-                toast.error("Failed to get fertilizer recommendation.");
+                toast.error("🚫 Failed to get fertilizer recommendation.");
                 return;
             }
 
@@ -121,8 +121,11 @@ export default function FertilizerRecommendation() {
             setFertilizer(result.fertilizer);
             setExplanation(result.explanation);
         } catch (error) {
-            console.error("Recommendation error:", error);
-            toast.error("Failed to get fertilizer recommendation.");
+            const axiosError = error as AxiosError<IApiResponse>;
+            const errorMessage = axiosError.response?.data.message;
+            toast.error("🚫 Failed to get fertilizer recommendation.", {
+                description: errorMessage,
+            });
         } finally {
             setLoading(false);
         }
