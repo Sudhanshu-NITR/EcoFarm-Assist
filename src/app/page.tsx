@@ -13,7 +13,7 @@ import Footer from '@/components/Footer';
 import axios from 'axios';
 
 const url = `https://eco-farm-assist.onrender.com`; 
-  const interval = 1000 * 60 * 14; 
+  const interval = 1000 * 30; 
 
   setInterval(() => {
     axios
